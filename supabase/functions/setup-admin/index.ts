@@ -32,7 +32,7 @@ Deno.serve(async (req: Request) => {
     // Check if super admin already exists
     const { data: existingAdmin } = await supabase
       .from('user_roles')
-      .select('id')
+      .select('user_id')
       .eq('role', 'admin')
       .maybeSingle();
 
@@ -63,7 +63,14 @@ Deno.serve(async (req: Request) => {
       email_confirm: true,
     });
 
-    if (authError) throw authError;
+    if (authError) {
+      console.error('Auth error details:', authError);
+      throw new Error(`Failed to create user: ${authError.message}`);
+    }
+
+    if (!authData || !authData.user) {
+      throw new Error('User creation returned no data');
+    }
 
     // Create admin role entry
     const { error: roleError } = await supabase
