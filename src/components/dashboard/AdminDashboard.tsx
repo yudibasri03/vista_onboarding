@@ -161,7 +161,11 @@ export function AdminDashboard() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-teal-100 to-emerald-100">Vista Admin Portal</h1>
+              <img
+                src="/vista-logo_white.png"
+                alt="Vista Admin Portal"
+                className="h-12 w-auto mb-2"
+              />
               <p className="text-slate-300 text-sm mt-1.5 font-medium">Client Management & Onboarding System</p>
             </div>
             <button
