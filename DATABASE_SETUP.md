@@ -28,6 +28,7 @@ Execute these migration files in order in the Supabase SQL Editor:
 9. `20251213064209_make_user_id_nullable_in_clients.sql` - Allows direct registration
 10. `20251213064428_create_superadmin_user.sql` - Adds password change tracking
 11. `20251213065055_add_service_role_bypass_for_admin_setup.sql` - Service role policy
+12. `20251213071518_fix_infinite_recursion_in_user_roles.sql` - **CRITICAL**: Fixes RLS recursion bug
 
 ## What Will Be Created
 
@@ -67,6 +68,10 @@ curl -X POST "https://qkjcycsmnbihgyjqhmzz.supabase.co/functions/v1/setup-admin"
 **Error: relation "user_roles" does not exist**
 - Migrations haven't been applied yet
 - Follow the setup steps above
+
+**Error: infinite recursion detected in policy for relation "user_roles"**
+- Make sure ALL migrations are applied, especially the last one (#12)
+- The fix is in `20251213071518_fix_infinite_recursion_in_user_roles.sql`
 
 **Error: permission denied**
 - Make sure you're using the correct Supabase project
