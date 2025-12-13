@@ -172,6 +172,23 @@ export interface Database {
           created_at?: string
         }
       }
+      user_roles: {
+        Row: {
+          user_id: string
+          role: 'admin' | 'client'
+          created_at: string
+        }
+        Insert: {
+          user_id: string
+          role?: 'admin' | 'client'
+          created_at?: string
+        }
+        Update: {
+          user_id?: string
+          role?: 'admin' | 'client'
+          created_at?: string
+        }
+      }
     }
   }
 }

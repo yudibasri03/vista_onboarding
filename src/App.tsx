@@ -5,21 +5,37 @@ import { LoginForm } from './components/auth/LoginForm';
 import { RegisterForm } from './components/auth/RegisterForm';
 import { ProfileCompletionForm } from './components/auth/ProfileCompletionForm';
 import { ClientDashboard } from './components/dashboard/ClientDashboard';
+import { AdminLoginForm } from './components/auth/AdminLoginForm';
+import { AdminDashboard } from './components/dashboard/AdminDashboard';
 import { LogOut } from 'lucide-react';
 
 function App() {
-  const { user, loading, signOut } = useAuth();
+  const { user, loading, signOut, isAdmin, userRole } = useAuth();
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
   const [hasClientProfile, setHasClientProfile] = useState(false);
   const [checkingProfile, setCheckingProfile] = useState(true);
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPath(window.location.pathname);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   useEffect(() => {
     if (user) {
-      checkClientProfile();
+      if (!isAdmin) {
+        checkClientProfile();
+      } else {
+        setCheckingProfile(false);
+      }
     } else {
       setCheckingProfile(false);
     }
-  }, [user]);
+  }, [user, isAdmin]);
 
   const checkClientProfile = async () => {
     try {
@@ -150,6 +166,10 @@ function App() {
   }
 
   if (!user) {
+    if (currentPath === '/admin') {
+      return <AdminLoginForm />;
+    }
+
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-4">
         <div className="w-full max-w-6xl">
@@ -170,6 +190,20 @@ function App() {
               />
             </div>
           )}
+
+          <div className="text-center mt-6">
+            <a
+              href="/admin"
+              onClick={(e) => {
+                e.preventDefault();
+                window.history.pushState({}, '', '/admin');
+                setCurrentPath('/admin');
+              }}
+              className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
+            >
+              Login sebagai Admin
+            </a>
+          </div>
         </div>
       </div>
     );
@@ -203,6 +237,10 @@ function App() {
         </div>
       </div>
     );
+  }
+
+  if (isAdmin) {
+    return <AdminDashboard />;
   }
 
   return <ClientDashboard />;
