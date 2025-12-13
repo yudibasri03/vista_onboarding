@@ -12,9 +12,10 @@ interface RegisterFormProps {
     address: string;
     business_type: string;
   }) => void;
+  showLoginLink?: boolean;
 }
 
-export function RegisterForm({ onToggleMode, onRegistrationComplete }: RegisterFormProps) {
+export function RegisterForm({ onToggleMode, onRegistrationComplete, showLoginLink = true }: RegisterFormProps) {
   const [formData, setFormData] = useState({
     company_name: '',
     pic_name: '',
@@ -226,17 +227,19 @@ export function RegisterForm({ onToggleMode, onRegistrationComplete }: RegisterF
           </button>
         </form>
 
-        <div className="mt-6 text-center">
-          <p className="text-sm text-gray-600">
-            Sudah punya akun?{' '}
-            <button
-              onClick={onToggleMode}
-              className="text-blue-600 hover:text-blue-700 font-medium"
-            >
-              Login di sini
-            </button>
-          </p>
-        </div>
+        {showLoginLink && (
+          <div className="mt-6 text-center">
+            <p className="text-sm text-gray-600">
+              Sudah punya akun?{' '}
+              <button
+                onClick={onToggleMode}
+                className="text-blue-600 hover:text-blue-700 font-medium"
+              >
+                Login di sini
+              </button>
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

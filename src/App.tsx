@@ -4,9 +4,10 @@ import { supabase } from './lib/supabase';
 import { LoginForm } from './components/auth/LoginForm';
 import { RegisterForm } from './components/auth/RegisterForm';
 import { ClientDashboard } from './components/dashboard/ClientDashboard';
+import { LogOut } from 'lucide-react';
 
 function App() {
-  const { user, loading } = useAuth();
+  const { user, loading, signOut } = useAuth();
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
   const [hasClientProfile, setHasClientProfile] = useState(false);
   const [checkingProfile, setCheckingProfile] = useState(true);
@@ -142,6 +143,16 @@ function App() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-4">
         <div className="w-full max-w-6xl">
+          <div className="flex justify-end mb-4">
+            <button
+              onClick={signOut}
+              className="flex items-center gap-2 px-4 py-2 text-gray-700 bg-white rounded-lg hover:bg-gray-50 transition-colors shadow-sm"
+            >
+              <LogOut className="w-4 h-4" />
+              <span>Logout</span>
+            </button>
+          </div>
+
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-gray-900 mb-2">Lengkapi Profil Anda</h1>
             <p className="text-gray-600">Silakan lengkapi data perusahaan untuk melanjutkan</p>
@@ -151,6 +162,7 @@ function App() {
             <RegisterForm
               onToggleMode={() => {}}
               onRegistrationComplete={handleRegistrationComplete}
+              showLoginLink={false}
             />
           </div>
         </div>
