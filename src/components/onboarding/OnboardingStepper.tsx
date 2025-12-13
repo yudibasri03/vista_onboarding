@@ -20,9 +20,9 @@ export function OnboardingStepper({ currentStep, steps }: OnboardingStepperProps
               <div
                 className={`w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 rounded-lg md:rounded-2xl flex items-center justify-center font-bold text-sm sm:text-base md:text-lg transition-all duration-300 shadow-md md:shadow-lg ${
                   currentStep > step.number
-                    ? 'bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-emerald-500/40'
+                    ? 'bg-gradient-to-br from-amber-500 to-yellow-500 text-white shadow-amber-500/40'
                     : currentStep === step.number
-                    ? 'bg-gradient-to-br from-teal-600 to-emerald-600 text-white ring-2 md:ring-4 ring-teal-200 shadow-teal-500/50 scale-105 md:scale-110'
+                    ? 'bg-gradient-to-br from-amber-600 to-yellow-600 text-white ring-2 md:ring-4 ring-amber-200 shadow-amber-500/50 scale-105 md:scale-110'
                     : 'bg-slate-200 text-slate-400 shadow-slate-300/30'
                 }`}
               >
@@ -47,7 +47,7 @@ export function OnboardingStepper({ currentStep, steps }: OnboardingStepperProps
                 <div
                   className={`h-full rounded-full transition-all duration-500 ${
                     currentStep > step.number
-                      ? 'bg-gradient-to-r from-emerald-500 to-teal-500 w-full'
+                      ? 'bg-gradient-to-r from-amber-500 to-yellow-500 w-full'
                       : 'w-0'
                   }`}
                 />
