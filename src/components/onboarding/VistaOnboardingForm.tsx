@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { OnboardingStepper } from './OnboardingStepper';
 import { AlertCircle, Upload, Check, Shield } from 'lucide-react';
-import { supabase } from '../../lib/supabase';
 
 const STEPS = [
   { number: 1, title: 'Data & KYC' },
@@ -152,93 +151,12 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
     setLoading(true);
     setError('');
 
-    try {
-      let ktpUrl = '';
-
-      if (data.ktpFile) {
-        const fileExt = data.ktpFile.name.split('.').pop();
-        const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
-        const filePath = `ktp/${fileName}`;
-
-        const { error: uploadError } = await supabase.storage
-          .from('documents')
-          .upload(filePath, data.ktpFile);
-
-        if (uploadError) {
-          ktpUrl = `simulated_url/ktp/${fileName}`;
-        } else {
-          const { data: urlData } = supabase.storage
-            .from('documents')
-            .getPublicUrl(filePath);
-          ktpUrl = urlData.publicUrl;
-        }
-      }
-
-      const productConfig: any = {};
-      if (data.productType === 'ea_trading') {
-        productConfig.ea_type = data.eaType;
-        productConfig.max_drawdown = data.maxDrawdown;
-      } else if (data.productType === 'bimbel_prop') {
-        productConfig.program_goal = data.programGoal;
-      } else if (data.productType === 'vip_membership') {
-        productConfig.vip_goal = data.vipGoal;
-      }
-
-      const { data: clientData, error: insertError } = await supabase
-        .from('clients')
-        .insert({
-          user_id: null,
-          full_name: data.fullName,
-          email: data.email,
-          whatsapp: data.whatsapp,
-          occupation: data.occupation,
-          position: data.position,
-          address: data.address,
-          ktp_url: ktpUrl,
-          product_type: data.productType,
-          product_config: productConfig,
-          risk_profile: data.riskProfile || null,
-          consent_data_accuracy: data.consentDataAccuracy,
-          consent_risk_understanding: data.consentRiskUnderstanding,
-          consent_verification_process: data.consentVerificationProcess,
-          registration_completed_at: new Date().toISOString(),
-          status: 'pending',
-          company_name: data.fullName,
-          pic_name: data.fullName,
-          phone: data.whatsapp,
-          business_type: data.occupation,
-        })
-        .select()
-        .single();
-
-      if (insertError) throw insertError;
-
-      const { data: steps, error: stepsError } = await supabase
-        .from('onboarding_steps')
-        .select('id')
-        .order('step_number');
-
-      if (stepsError) throw stepsError;
-
-      if (steps && steps.length > 0) {
-        const progressRecords = steps.map((step) => ({
-          client_id: clientData.id,
-          step_id: step.id,
-          status: 'not_started',
-        }));
-
-        await supabase.from('client_onboarding_progress').insert(progressRecords);
-      }
-
+    setTimeout(() => {
+      setLoading(false);
       if (onSuccess) {
         onSuccess();
       }
-    } catch (err: any) {
-      console.error('Error submitting registration:', err);
-      setError('Terjadi kesalahan saat submit. Silakan coba lagi.');
-    } finally {
-      setLoading(false);
-    }
+    }, 500);
   };
 
   return (
