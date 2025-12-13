@@ -22,6 +22,18 @@ export interface Database {
           status: string
           created_at: string
           updated_at: string
+          full_name: string | null
+          whatsapp: string | null
+          occupation: string | null
+          position: string | null
+          ktp_url: string | null
+          product_type: 'ea_trading' | 'bimbel_prop' | 'vip_membership' | null
+          product_config: any
+          risk_profile: 'aggressive' | 'moderate' | 'conservative' | null
+          consent_data_accuracy: boolean
+          consent_risk_understanding: boolean
+          consent_verification_process: boolean
+          registration_completed_at: string | null
         }
         Insert: {
           id?: string
@@ -35,6 +47,18 @@ export interface Database {
           status?: string
           created_at?: string
           updated_at?: string
+          full_name?: string | null
+          whatsapp?: string | null
+          occupation?: string | null
+          position?: string | null
+          ktp_url?: string | null
+          product_type?: 'ea_trading' | 'bimbel_prop' | 'vip_membership' | null
+          product_config?: any
+          risk_profile?: 'aggressive' | 'moderate' | 'conservative' | null
+          consent_data_accuracy?: boolean
+          consent_risk_understanding?: boolean
+          consent_verification_process?: boolean
+          registration_completed_at?: string | null
         }
         Update: {
           id?: string
@@ -48,6 +72,18 @@ export interface Database {
           status?: string
           created_at?: string
           updated_at?: string
+          full_name?: string | null
+          whatsapp?: string | null
+          occupation?: string | null
+          position?: string | null
+          ktp_url?: string | null
+          product_type?: 'ea_trading' | 'bimbel_prop' | 'vip_membership' | null
+          product_config?: any
+          risk_profile?: 'aggressive' | 'moderate' | 'conservative' | null
+          consent_data_accuracy?: boolean
+          consent_risk_understanding?: boolean
+          consent_verification_process?: boolean
+          registration_completed_at?: string | null
         }
       }
       onboarding_steps: {
