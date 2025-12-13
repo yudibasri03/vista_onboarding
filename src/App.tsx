@@ -45,18 +45,17 @@ function App() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h2 className="text-3xl font-bold text-slate-800 mb-3">Registrasi Berhasil!</h2>
+          <h2 className="text-3xl font-bold text-slate-800 mb-3">Thank You!</h2>
           <p className="text-slate-600 mb-8 leading-relaxed">
             Terima kasih telah melengkapi formulir registrasi. Tim kami akan segera menghubungi Anda untuk proses verifikasi dan aktivasi produk.
           </p>
           <button
             onClick={() => {
-              setShowSuccess(false);
-              window.location.reload();
+              window.location.href = 'https://produk.govista.co.id';
             }}
             className="w-full px-6 py-4 bg-gradient-to-r from-teal-600 to-emerald-600 text-white rounded-xl hover:from-teal-700 hover:to-emerald-700 transition-all font-semibold text-lg shadow-lg shadow-teal-500/30 hover:shadow-xl hover:shadow-teal-500/40"
           >
-            Registrasi Client Baru
+            Thank You
           </button>
         </div>
       </div>
