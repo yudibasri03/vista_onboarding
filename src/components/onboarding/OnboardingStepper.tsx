@@ -12,29 +12,29 @@ interface OnboardingStepperProps {
 
 export function OnboardingStepper({ currentStep, steps }: OnboardingStepperProps) {
   return (
-    <div className="w-full py-10 mb-8">
-      <div className="flex items-center justify-between max-w-4xl mx-auto px-4">
+    <div className="w-full py-6 md:py-10 mb-6 md:mb-8">
+      <div className="flex items-center justify-between max-w-4xl mx-auto px-2 sm:px-4">
         {steps.map((step, index) => (
           <div key={step.number} className="flex items-center flex-1">
             <div className="flex flex-col items-center relative">
               <div
-                className={`w-16 h-16 rounded-2xl flex items-center justify-center font-bold text-lg transition-all duration-300 shadow-lg ${
+                className={`w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 rounded-lg md:rounded-2xl flex items-center justify-center font-bold text-sm sm:text-base md:text-lg transition-all duration-300 shadow-md md:shadow-lg ${
                   currentStep > step.number
                     ? 'bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-emerald-500/40'
                     : currentStep === step.number
-                    ? 'bg-gradient-to-br from-teal-600 to-emerald-600 text-white ring-4 ring-teal-200 shadow-teal-500/50 scale-110'
+                    ? 'bg-gradient-to-br from-teal-600 to-emerald-600 text-white ring-2 md:ring-4 ring-teal-200 shadow-teal-500/50 scale-105 md:scale-110'
                     : 'bg-slate-200 text-slate-400 shadow-slate-300/30'
                 }`}
               >
                 {currentStep > step.number ? (
-                  <Check className="h-7 w-7" />
+                  <Check className="h-4 w-4 sm:h-5 sm:w-5 md:h-7 md:w-7" />
                 ) : (
                   step.number
                 )}
               </div>
-              <div className="mt-3 text-center">
+              <div className="mt-1.5 sm:mt-2 md:mt-3 text-center">
                 <p
-                  className={`text-sm font-semibold transition-colors ${
+                  className={`text-[10px] sm:text-xs md:text-sm font-semibold transition-colors whitespace-nowrap ${
                     currentStep >= step.number ? 'text-white' : 'text-slate-400'
                   }`}
                 >
@@ -43,7 +43,7 @@ export function OnboardingStepper({ currentStep, steps }: OnboardingStepperProps
               </div>
             </div>
             {index < steps.length - 1 && (
-              <div className="flex-1 h-2 mx-6 mb-10 rounded-full overflow-hidden bg-slate-700/30">
+              <div className="flex-1 h-1.5 md:h-2 mx-1 sm:mx-2 md:mx-6 mb-6 sm:mb-8 md:mb-10 rounded-full overflow-hidden bg-slate-700/30">
                 <div
                   className={`h-full rounded-full transition-all duration-500 ${
                     currentStep > step.number
