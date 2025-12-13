@@ -246,18 +246,11 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
       <div className="max-w-5xl mx-auto px-4">
         <div className="text-center mb-10">
           <div className="inline-flex items-center justify-center mb-6">
-            <svg className="h-16 w-auto" viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="vistaGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#14b8a6" />
-                  <stop offset="100%" stopColor="#10b981" />
-                </linearGradient>
-              </defs>
-              <path d="M20 10 L30 40 L40 10" stroke="url(#vistaGradient)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-              <rect x="15" y="8" width="30" height="4" rx="2" fill="url(#vistaGradient)"/>
-              <text x="55" y="35" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" fill="#ffffff">VISTA</text>
-              <text x="55" y="50" fontFamily="Arial, sans-serif" fontSize="10" fill="#94a3b8">Penasihat Berjangka</text>
-            </svg>
+            <img
+              src="/vista-logo_white.png"
+              alt="Vista Penasihat Berjangka"
+              className="h-16 w-auto"
+            />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white via-teal-100 to-emerald-100">
             Client Onboarding Portal
