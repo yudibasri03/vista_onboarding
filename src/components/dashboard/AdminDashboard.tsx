@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../hooks/useAuth';
+import { ClientDetailView } from './ClientDetailView';
 import {
   Users,
   FileText,
@@ -10,18 +11,25 @@ import {
   LogOut,
   Search,
   Eye,
-  Filter
+  Filter,
+  Shield,
+  XCircle,
+  Calendar
 } from 'lucide-react';
 
 interface Client {
   id: string;
+  full_name: string;
   company_name: string;
   pic_name: string;
   email: string;
   phone: string;
   business_type: string;
+  product_type: 'ea_trading' | 'bimbel_prop' | 'vip_membership' | null;
+  risk_profile: 'aggressive' | 'moderate' | 'conservative' | null;
   status: string;
   created_at: string;
+  registration_completed_at: string;
 }
 
 interface OnboardingProgress {
@@ -38,7 +46,7 @@ export function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
-  const [selectedClient, setSelectedClient] = useState<Client | null>(null);
+  const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
 
   useEffect(() => {
     loadClients();
@@ -110,8 +118,9 @@ export function AdminDashboard() {
 
   const filteredClients = clients.filter(client => {
     const matchesSearch =
-      client.company_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      client.pic_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (client.full_name?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+      (client.company_name?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+      (client.pic_name?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
       client.email.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesStatus = statusFilter === 'all' || client.status === statusFilter;
@@ -119,14 +128,19 @@ export function AdminDashboard() {
     return matchesSearch && matchesStatus;
   });
 
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
   const stats = {
     total: clients.length,
+    today: clients.filter(c => {
+      const regDate = new Date(c.registration_completed_at || c.created_at);
+      regDate.setHours(0, 0, 0, 0);
+      return regDate.getTime() === today.getTime();
+    }).length,
     pending: clients.filter(c => c.status === 'pending').length,
-    active: clients.filter(c => c.status === 'active').length,
-    completed: clients.filter(c => {
-      const p = progress[c.id];
-      return p && p.progress_percentage === 100;
-    }).length
+    approved: clients.filter(c => c.status === 'approved').length,
+    rejected: clients.filter(c => c.status === 'rejected').length
   };
 
   if (loading) {
@@ -158,11 +172,16 @@ export function AdminDashboard() {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="mb-6">
+          <h2 className="text-2xl font-bold text-white mb-2">Dashboard Overview</h2>
+          <p className="text-slate-400">Snapshot cepat kondisi onboarding</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
           <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-slate-400 text-sm">Total Clients</p>
+                <p className="text-slate-400 text-sm">Total Submissions</p>
                 <p className="text-3xl font-bold text-white mt-1">{stats.total}</p>
               </div>
               <Users className="h-10 w-10 text-blue-400" />
@@ -172,7 +191,17 @@ export function AdminDashboard() {
           <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-slate-400 text-sm">Pending</p>
+                <p className="text-slate-400 text-sm">Today</p>
+                <p className="text-3xl font-bold text-white mt-1">{stats.today}</p>
+              </div>
+              <Calendar className="h-10 w-10 text-purple-400" />
+            </div>
+          </div>
+
+          <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-slate-400 text-sm">Pending Review</p>
                 <p className="text-3xl font-bold text-white mt-1">{stats.pending}</p>
               </div>
               <Clock className="h-10 w-10 text-yellow-400" />
@@ -182,8 +211,8 @@ export function AdminDashboard() {
           <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-slate-400 text-sm">Active</p>
-                <p className="text-3xl font-bold text-white mt-1">{stats.active}</p>
+                <p className="text-slate-400 text-sm">Approved</p>
+                <p className="text-3xl font-bold text-white mt-1">{stats.approved}</p>
               </div>
               <CheckCircle2 className="h-10 w-10 text-green-400" />
             </div>
@@ -192,10 +221,10 @@ export function AdminDashboard() {
           <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-slate-400 text-sm">Completed</p>
-                <p className="text-3xl font-bold text-white mt-1">{stats.completed}</p>
+                <p className="text-slate-400 text-sm">Rejected</p>
+                <p className="text-3xl font-bold text-white mt-1">{stats.rejected}</p>
               </div>
-              <FileText className="h-10 w-10 text-emerald-400" />
+              <XCircle className="h-10 w-10 text-red-400" />
             </div>
           </div>
         </div>
@@ -237,19 +266,19 @@ export function AdminDashboard() {
               <thead className="bg-slate-700/50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
-                    Company
+                    Name
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
-                    PIC
+                    Product
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
+                    Risk Profile
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
                     Contact
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
                     Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
-                    Progress
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
                     Actions
@@ -265,21 +294,43 @@ export function AdminDashboard() {
                   </tr>
                 ) : (
                   filteredClients.map((client) => {
-                    const clientProgress = progress[client.id];
+                    const getProductLabel = () => {
+                      switch (client.product_type) {
+                        case 'ea_trading': return 'EA Trading';
+                        case 'bimbel_prop': return 'Bimbel + Prop';
+                        case 'vip_membership': return 'VIP Member';
+                        default: return '-';
+                      }
+                    };
+
+                    const getRiskLabel = () => {
+                      switch (client.risk_profile) {
+                        case 'aggressive': return 'Agresif';
+                        case 'moderate': return 'Moderat';
+                        case 'conservative': return 'Konservatif';
+                        default: return '-';
+                      }
+                    };
+
                     return (
                       <tr key={client.id} className="hover:bg-slate-700/30 transition-colors">
                         <td className="px-6 py-4">
                           <div>
-                            <div className="text-white font-medium">{client.company_name}</div>
-                            <div className="text-slate-400 text-sm">{client.business_type}</div>
+                            <div className="text-white font-medium">{client.full_name || client.company_name}</div>
+                            <div className="text-slate-400 text-sm">{client.email}</div>
                           </div>
                         </td>
-                        <td className="px-6 py-4 text-slate-300">
-                          {client.pic_name}
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-2">
+                            <Shield className="h-4 w-4 text-blue-400" />
+                            <span className="text-slate-300 text-sm">{getProductLabel()}</span>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-slate-300 text-sm">
+                          {getRiskLabel()}
                         </td>
                         <td className="px-6 py-4">
                           <div className="text-slate-300 text-sm">
-                            <div>{client.email}</div>
                             <div className="text-slate-400">{client.phone}</div>
                           </div>
                         </td>
@@ -287,34 +338,12 @@ export function AdminDashboard() {
                           {getStatusBadge(client.status)}
                         </td>
                         <td className="px-6 py-4">
-                          {clientProgress ? (
-                            <div>
-                              <div className="flex items-center gap-2 mb-1">
-                                <div className="flex-1 bg-slate-700 rounded-full h-2 overflow-hidden">
-                                  <div
-                                    className="bg-emerald-500 h-full transition-all duration-300"
-                                    style={{ width: `${clientProgress.progress_percentage}%` }}
-                                  />
-                                </div>
-                                <span className="text-xs text-slate-400 min-w-[3rem]">
-                                  {Math.round(clientProgress.progress_percentage)}%
-                                </span>
-                              </div>
-                              <div className="text-xs text-slate-400">
-                                {clientProgress.completed_steps}/{clientProgress.total_steps} steps
-                              </div>
-                            </div>
-                          ) : (
-                            <span className="text-slate-400 text-sm">No progress</span>
-                          )}
-                        </td>
-                        <td className="px-6 py-4">
                           <button
-                            onClick={() => setSelectedClient(client)}
+                            onClick={() => setSelectedClientId(client.id)}
                             className="flex items-center gap-2 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors text-sm"
                           >
                             <Eye className="h-4 w-4" />
-                            View
+                            Review
                           </button>
                         </td>
                       </tr>
@@ -327,66 +356,12 @@ export function AdminDashboard() {
         </div>
       </main>
 
-      {selectedClient && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-slate-800 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-slate-700">
-            <div className="p-6 border-b border-slate-700 flex justify-between items-start">
-              <div>
-                <h3 className="text-xl font-bold text-white">{selectedClient.company_name}</h3>
-                <p className="text-slate-400 text-sm mt-1">Client Details</p>
-              </div>
-              <button
-                onClick={() => setSelectedClient(null)}
-                className="text-slate-400 hover:text-white"
-              >
-                ✕
-              </button>
-            </div>
-
-            <div className="p-6 space-y-4">
-              <div>
-                <label className="text-sm text-slate-400">PIC Name</label>
-                <p className="text-white mt-1">{selectedClient.pic_name}</p>
-              </div>
-
-              <div>
-                <label className="text-sm text-slate-400">Email</label>
-                <p className="text-white mt-1">{selectedClient.email}</p>
-              </div>
-
-              <div>
-                <label className="text-sm text-slate-400">Phone</label>
-                <p className="text-white mt-1">{selectedClient.phone}</p>
-              </div>
-
-              <div>
-                <label className="text-sm text-slate-400">Business Type</label>
-                <p className="text-white mt-1">{selectedClient.business_type}</p>
-              </div>
-
-              <div>
-                <label className="text-sm text-slate-400">Address</label>
-                <p className="text-white mt-1">{selectedClient.address}</p>
-              </div>
-
-              <div>
-                <label className="text-sm text-slate-400">Status</label>
-                <div className="mt-1">{getStatusBadge(selectedClient.status)}</div>
-              </div>
-
-              <div>
-                <label className="text-sm text-slate-400">Created</label>
-                <p className="text-white mt-1">
-                  {new Date(selectedClient.created_at).toLocaleDateString('id-ID', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+      {selectedClientId && (
+        <ClientDetailView
+          clientId={selectedClientId}
+          onClose={() => setSelectedClientId(null)}
+          onUpdate={loadClients}
+        />
       )}
     </div>
   );
