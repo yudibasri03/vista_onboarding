@@ -28,6 +28,7 @@ interface Client {
   phone: string;
   business_type: string;
   product_type: 'ea_trading' | 'bimbel_prop' | 'vip_membership' | null;
+  product_config: any;
   risk_profile: 'aggressive' | 'moderate' | 'conservative' | null;
   status: string;
   created_at: string;
@@ -164,6 +165,34 @@ export function AdminDashboard() {
       }
     };
 
+    const getEAType = (client: Client) => {
+      if (client.product_type === 'ea_trading' && client.product_config?.ea_type) {
+        return client.product_config.ea_type === 'gold' ? 'Gold EA' : 'Forex EA';
+      }
+      return '-';
+    };
+
+    const getMaxDrawdown = (client: Client) => {
+      if (client.product_type === 'ea_trading' && client.product_config?.max_drawdown) {
+        return `${client.product_config.max_drawdown}%`;
+      }
+      return '-';
+    };
+
+    const getProgramGoal = (client: Client) => {
+      if (client.product_type === 'bimbel_prop' && client.product_config?.program_goal) {
+        return client.product_config.program_goal === 'intermediate' ? 'Intermediate' : 'Advance';
+      }
+      return '-';
+    };
+
+    const getVIPGoal = (client: Client) => {
+      if (client.product_type === 'vip_membership' && client.product_config?.vip_goal) {
+        return client.product_config.vip_goal;
+      }
+      return '-';
+    };
+
     const headers = [
       'Full Name',
       'Company Name',
@@ -171,7 +200,11 @@ export function AdminDashboard() {
       'Email',
       'Phone',
       'Product Type',
+      'Jenis EA',
       'Risk Profile',
+      'Maximum Drawdown',
+      'Program Goal',
+      'VIP Goal',
       'Business Type',
       'Status',
       'Registration Date',
@@ -187,7 +220,11 @@ export function AdminDashboard() {
         `"${client.email}"`,
         `"${client.phone || '-'}"`,
         `"${getProductLabel(client.product_type)}"`,
+        `"${getEAType(client)}"`,
         `"${getRiskLabel(client.risk_profile)}"`,
+        `"${getMaxDrawdown(client)}"`,
+        `"${getProgramGoal(client)}"`,
+        `"${getVIPGoal(client)}"`,
         `"${client.business_type || '-'}"`,
         `"${client.status}"`,
         `"${client.registration_completed_at ? new Date(client.registration_completed_at).toLocaleString('id-ID') : '-'}"`,
