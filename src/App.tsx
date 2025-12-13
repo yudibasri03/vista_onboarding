@@ -3,6 +3,7 @@ import { useAuth } from './hooks/useAuth';
 import { supabase } from './lib/supabase';
 import { LoginForm } from './components/auth/LoginForm';
 import { RegisterForm } from './components/auth/RegisterForm';
+import { ProfileCompletionForm } from './components/auth/ProfileCompletionForm';
 import { ClientDashboard } from './components/dashboard/ClientDashboard';
 import { LogOut } from 'lucide-react';
 
@@ -40,6 +41,41 @@ function App() {
   };
 
   const handleRegistrationComplete = async (data: {
+    email: string;
+    company_name: string;
+    pic_name: string;
+    phone: string;
+    address: string;
+    business_type: string;
+  }) => {
+    await createClientProfile({
+      email: data.email,
+      company_name: data.company_name,
+      pic_name: data.pic_name,
+      phone: data.phone,
+      address: data.address,
+      business_type: data.business_type,
+    });
+  };
+
+  const handleProfileCompletion = async (data: {
+    company_name: string;
+    pic_name: string;
+    phone: string;
+    address: string;
+    business_type: string;
+  }) => {
+    await createClientProfile({
+      email: user?.email || '',
+      company_name: data.company_name,
+      pic_name: data.pic_name,
+      phone: data.phone,
+      address: data.address,
+      business_type: data.business_type,
+    });
+  };
+
+  const createClientProfile = async (data: {
     email: string;
     company_name: string;
     pic_name: string;
@@ -159,10 +195,9 @@ function App() {
           </div>
 
           <div className="flex justify-center">
-            <RegisterForm
-              onToggleMode={() => {}}
-              onRegistrationComplete={handleRegistrationComplete}
-              showLoginLink={false}
+            <ProfileCompletionForm
+              userEmail={user?.email || ''}
+              onComplete={handleProfileCompletion}
             />
           </div>
         </div>
