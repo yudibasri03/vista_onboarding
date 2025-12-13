@@ -587,9 +587,9 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                       className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all shadow-sm"
                     >
                       <option value="">Pilih Max Drawdown</option>
-                      <option value="10">10%</option>
-                      <option value="30">30%</option>
+                      <option value="35">35%</option>
                       <option value="50">50%</option>
+                      <option value="65">65%</option>
                     </select>
                   </div>
 
