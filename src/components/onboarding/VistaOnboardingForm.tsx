@@ -242,15 +242,22 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-teal-900 py-12">
       <div className="max-w-5xl mx-auto px-4">
-        <div className="text-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-900">Vista Penasihat Berjangka</h1>
-          <h2 className="text-xl text-gray-700 mt-2">Client Onboarding & Product Registration</h2>
-          <p className="text-sm text-gray-600 mt-1">
-            Halaman ini merupakan bagian dari prosedur internal perusahaan untuk proses onboarding klien.
+        <div className="text-center mb-10">
+          <div className="inline-block mb-4 px-6 py-2 bg-gradient-to-r from-teal-500/20 to-emerald-500/20 border border-teal-500/30 rounded-full">
+            <span className="text-teal-400 text-sm font-semibold tracking-wide">VISTA PENASIHAT BERJANGKA</span>
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white via-teal-100 to-emerald-100">
+            Client Onboarding Portal
+          </h1>
+          <p className="text-lg text-slate-300 max-w-2xl mx-auto mb-2">
+            Platform Registrasi Produk Investasi & Trading
           </p>
-          <div className="mt-4">
+          <p className="text-sm text-slate-400 max-w-2xl mx-auto">
+            Prosedur internal untuk onboarding klien dan verifikasi KYC sesuai standar compliance
+          </p>
+          <div className="mt-6">
             <a
               href="/admin"
               onClick={(e) => {
@@ -258,32 +265,37 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                 window.history.pushState({}, '', '/admin');
                 window.location.reload();
               }}
-              className="text-sm text-blue-600 hover:text-blue-700 underline"
+              className="inline-flex items-center gap-2 text-sm text-teal-400 hover:text-teal-300 transition-colors group"
             >
-              Login sebagai Admin
+              <Shield className="h-4 w-4 group-hover:scale-110 transition-transform" />
+              <span className="border-b border-teal-400/50 group-hover:border-teal-300">Admin Portal</span>
             </a>
           </div>
         </div>
 
         {currentStep === 1 && (
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-            <div className="flex items-start gap-3">
-              <Shield className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
-              <div>
-                <h3 className="font-semibold text-blue-900 mb-2">Pemberitahuan Penting</h3>
-                <p className="text-sm text-blue-800 mb-3">
+          <div className="bg-gradient-to-r from-amber-500/10 to-yellow-500/10 border border-amber-500/30 rounded-xl p-6 mb-8 backdrop-blur-sm">
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0 w-10 h-10 bg-amber-500/20 rounded-lg flex items-center justify-center">
+                <Shield className="h-5 w-5 text-amber-400" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold text-amber-100 mb-2 text-lg">Pemberitahuan Penting</h3>
+                <p className="text-sm text-slate-300 mb-4 leading-relaxed">
                   Halaman ini ditujukan khusus bagi klien yang telah menyetujui penggunaan produk Vista.
                   Seluruh data yang diisi akan digunakan untuk keperluan verifikasi, kepatuhan, dan aktivasi produk
                   sesuai kebijakan perusahaan.
                 </p>
-                <label className="flex items-center gap-2 cursor-pointer">
+                <label className="flex items-center gap-3 cursor-pointer group">
                   <input
                     type="checkbox"
                     checked={data.agreedToDisclaimer}
                     onChange={(e) => handleInputChange('agreedToDisclaimer', e.target.checked)}
-                    className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                    className="w-5 h-5 text-teal-500 bg-slate-700 border-slate-600 rounded focus:ring-2 focus:ring-teal-500 cursor-pointer"
                   />
-                  <span className="text-sm text-blue-900 font-medium">Saya memahami tujuan halaman ini</span>
+                  <span className="text-sm text-amber-100 font-medium group-hover:text-amber-50 transition-colors">
+                    Saya memahami dan menyetujui tujuan halaman ini
+                  </span>
                 </label>
               </div>
             </div>
@@ -292,106 +304,119 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
 
         <OnboardingStepper currentStep={currentStep} steps={STEPS} />
 
-        <div className="bg-white rounded-xl shadow-lg p-8">
-          {error && (
-            <div className="mb-6 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg flex items-start gap-3">
-              <AlertCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
-              <p className="text-sm">{error}</p>
-            </div>
-          )}
+        <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-slate-200/50 overflow-hidden">
+          <div className="bg-gradient-to-r from-slate-50 to-teal-50/30 px-8 py-6 border-b border-slate-200/50">
+            <h2 className="text-2xl font-bold text-slate-800">
+              {currentStep === 1 && 'Data Pribadi & KYC'}
+              {currentStep === 2 && 'Pemilihan Produk'}
+              {currentStep === 3 && 'Konfigurasi Produk'}
+              {currentStep === 4 && 'Konfirmasi & Persetujuan'}
+            </h2>
+            <p className="text-sm text-slate-600 mt-1">
+              {currentStep === 1 && 'Lengkapi informasi pribadi Anda untuk verifikasi identitas'}
+              {currentStep === 2 && 'Pilih produk investasi yang sesuai dengan kebutuhan Anda'}
+              {currentStep === 3 && 'Atur preferensi dan konfigurasi produk pilihan Anda'}
+              {currentStep === 4 && 'Tinjau dan konfirmasi data registrasi Anda'}
+            </p>
+          </div>
+
+          <div className="p-8">
+            {error && (
+              <div className="mb-6 bg-gradient-to-r from-red-50 to-rose-50 border border-red-200 rounded-xl px-5 py-4 flex items-start gap-3 shadow-sm">
+                <div className="flex-shrink-0 w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
+                  <AlertCircle className="h-4 w-4 text-red-600" />
+                </div>
+                <p className="text-sm text-red-800 leading-relaxed flex-1">{error}</p>
+              </div>
+            )}
 
           {currentStep === 1 && (
             <div className="space-y-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Data Pribadi & KYC Awal</h3>
-              <p className="text-sm text-gray-600 mb-6">
-                Data ini digunakan untuk identifikasi klien, pencegahan fraud, dan compliance awal.
-              </p>
-
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Nama Lengkap (sesuai KTP) <span className="text-red-500">*</span>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Nama Lengkap <span className="text-sm font-normal text-slate-500">(sesuai KTP)</span> <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
                     value={data.fullName}
                     onChange={(e) => handleInputChange('fullName', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Nama lengkap Anda"
+                    className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all placeholder:text-slate-400"
+                    placeholder="Nama lengkap sesuai KTP"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Email <span className="text-red-500">*</span>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Email Address <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="email"
                     value={data.email}
                     onChange={(e) => handleInputChange('email', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all placeholder:text-slate-400"
                     placeholder="email@example.com"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    No. WhatsApp <span className="text-red-500">*</span>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    WhatsApp Number <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="tel"
                     value={data.whatsapp}
                     onChange={(e) => handleInputChange('whatsapp', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="08123456789"
+                    className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all placeholder:text-slate-400"
+                    placeholder="+62 812 3456 7890"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
                     Pekerjaan <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
                     value={data.occupation}
                     onChange={(e) => handleInputChange('occupation', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all placeholder:text-slate-400"
                     placeholder="Pekerjaan Anda"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
                     Jabatan <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
                     value={data.position}
                     onChange={(e) => handleInputChange('position', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all placeholder:text-slate-400"
                     placeholder="Jabatan Anda"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
                   Alamat Domisili <span className="text-red-500">*</span>
                 </label>
                 <textarea
                   value={data.address}
                   onChange={(e) => handleInputChange('address', e.target.value)}
                   rows={3}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all placeholder:text-slate-400"
                   placeholder="Alamat lengkap domisili Anda"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
                   Upload KTP (Depan) <span className="text-red-500">*</span>
                 </label>
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-500 transition-colors">
+                <div className="border-2 border-dashed border-slate-300 rounded-xl p-8 text-center hover:border-teal-500 hover:bg-teal-50/50 transition-all group cursor-pointer">
                   <input
                     type="file"
                     accept="image/jpeg,image/png,application/pdf"
@@ -401,76 +426,112 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                   />
                   <label htmlFor="ktp-upload" className="cursor-pointer">
                     {data.ktpFile ? (
-                      <div className="flex items-center justify-center gap-2 text-green-600">
-                        <Check className="h-5 w-5" />
-                        <span className="font-medium">{data.ktpFile.name}</span>
+                      <div className="flex flex-col items-center gap-3">
+                        <div className="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center">
+                          <Check className="h-7 w-7 text-emerald-600" />
+                        </div>
+                        <div>
+                          <p className="font-semibold text-emerald-700">{data.ktpFile.name}</p>
+                          <p className="text-xs text-slate-500 mt-1">File berhasil diunggah</p>
+                        </div>
                       </div>
                     ) : (
                       <div>
-                        <Upload className="h-12 w-12 text-gray-400 mx-auto mb-2" />
-                        <p className="text-sm text-gray-600">Klik untuk upload KTP</p>
-                        <p className="text-xs text-gray-500 mt-1">Format: JPG, PNG, PDF (Max 5 MB)</p>
+                        <div className="w-14 h-14 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-teal-100 transition-colors">
+                          <Upload className="h-7 w-7 text-slate-400 group-hover:text-teal-600 transition-colors" />
+                        </div>
+                        <p className="text-base font-semibold text-slate-700 group-hover:text-teal-700 transition-colors">Klik untuk upload KTP</p>
+                        <p className="text-sm text-slate-500 mt-1">Format: JPG, PNG, PDF (Max 5 MB)</p>
                       </div>
                     )}
                   </label>
                 </div>
-                <p className="text-xs text-gray-500 mt-2">
-                  Data disimpan secara aman dan hanya digunakan untuk keperluan verifikasi.
-                </p>
+                <div className="flex items-center gap-2 mt-3 text-xs text-slate-500">
+                  <Shield className="h-3.5 w-3.5" />
+                  <p>Data disimpan secara aman dan hanya digunakan untuk keperluan verifikasi KYC</p>
+                </div>
               </div>
             </div>
           )}
 
           {currentStep === 2 && (
-            <div className="space-y-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Pemilihan Produk</h3>
-              <p className="text-sm text-gray-600 mb-6">
-                Pilihan produk akan menentukan konfigurasi dan proses berikutnya.
-              </p>
-
+            <div className="space-y-5">
               <div className="space-y-4">
-                <label className="flex items-start gap-4 p-4 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 transition-colors">
+                <label className={`group relative flex items-start gap-5 p-6 border-2 rounded-xl cursor-pointer transition-all ${
+                  data.productType === 'ea_trading'
+                    ? 'border-teal-500 bg-gradient-to-br from-teal-50 to-emerald-50 shadow-lg shadow-teal-100'
+                    : 'border-slate-200 hover:border-teal-300 hover:shadow-md'
+                }`}>
                   <input
                     type="radio"
                     name="product"
                     value="ea_trading"
                     checked={data.productType === 'ea_trading'}
                     onChange={(e) => handleInputChange('productType', e.target.value)}
-                    className="mt-1"
+                    className="mt-1.5 w-5 h-5 text-teal-600 border-slate-300 focus:ring-teal-500 cursor-pointer"
                   />
-                  <div>
-                    <p className="font-semibold text-gray-900">EA Trading</p>
-                    <p className="text-sm text-gray-600">Automated trading dengan Expert Advisor</p>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                        data.productType === 'ea_trading' ? 'bg-teal-500' : 'bg-slate-100 group-hover:bg-teal-100'
+                      } transition-colors`}>
+                        <Shield className={`h-5 w-5 ${data.productType === 'ea_trading' ? 'text-white' : 'text-slate-600 group-hover:text-teal-600'}`} />
+                      </div>
+                      <p className="font-bold text-lg text-slate-800">EA Trading</p>
+                    </div>
+                    <p className="text-sm text-slate-600 leading-relaxed">Automated trading dengan Expert Advisor untuk eksekusi strategi otomatis dan optimal</p>
                   </div>
                 </label>
 
-                <label className="flex items-start gap-4 p-4 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 transition-colors">
+                <label className={`group relative flex items-start gap-5 p-6 border-2 rounded-xl cursor-pointer transition-all ${
+                  data.productType === 'bimbel_prop'
+                    ? 'border-teal-500 bg-gradient-to-br from-teal-50 to-emerald-50 shadow-lg shadow-teal-100'
+                    : 'border-slate-200 hover:border-teal-300 hover:shadow-md'
+                }`}>
                   <input
                     type="radio"
                     name="product"
                     value="bimbel_prop"
                     checked={data.productType === 'bimbel_prop'}
                     onChange={(e) => handleInputChange('productType', e.target.value)}
-                    className="mt-1"
+                    className="mt-1.5 w-5 h-5 text-teal-600 border-slate-300 focus:ring-teal-500 cursor-pointer"
                   />
-                  <div>
-                    <p className="font-semibold text-gray-900">Kelas Bimbel + Prop Funds</p>
-                    <p className="text-sm text-gray-600">Program edukasi trading dengan akses prop funds</p>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                        data.productType === 'bimbel_prop' ? 'bg-teal-500' : 'bg-slate-100 group-hover:bg-teal-100'
+                      } transition-colors`}>
+                        <Shield className={`h-5 w-5 ${data.productType === 'bimbel_prop' ? 'text-white' : 'text-slate-600 group-hover:text-teal-600'}`} />
+                      </div>
+                      <p className="font-bold text-lg text-slate-800">Kelas Bimbel + Prop Funds</p>
+                    </div>
+                    <p className="text-sm text-slate-600 leading-relaxed">Program edukasi trading komprehensif dengan akses langsung ke proprietary trading funds</p>
                   </div>
                 </label>
 
-                <label className="flex items-start gap-4 p-4 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 transition-colors">
+                <label className={`group relative flex items-start gap-5 p-6 border-2 rounded-xl cursor-pointer transition-all ${
+                  data.productType === 'vip_membership'
+                    ? 'border-teal-500 bg-gradient-to-br from-teal-50 to-emerald-50 shadow-lg shadow-teal-100'
+                    : 'border-slate-200 hover:border-teal-300 hover:shadow-md'
+                }`}>
                   <input
                     type="radio"
                     name="product"
                     value="vip_membership"
                     checked={data.productType === 'vip_membership'}
                     onChange={(e) => handleInputChange('productType', e.target.value)}
-                    className="mt-1"
+                    className="mt-1.5 w-5 h-5 text-teal-600 border-slate-300 focus:ring-teal-500 cursor-pointer"
                   />
-                  <div>
-                    <p className="font-semibold text-gray-900">VIP Membership</p>
-                    <p className="text-sm text-gray-600">Akses eksklusif ke semua layanan Vista</p>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                        data.productType === 'vip_membership' ? 'bg-gradient-to-br from-amber-500 to-yellow-500' : 'bg-slate-100 group-hover:bg-amber-100'
+                      } transition-colors`}>
+                        <Shield className={`h-5 w-5 ${data.productType === 'vip_membership' ? 'text-white' : 'text-slate-600 group-hover:text-amber-600'}`} />
+                      </div>
+                      <p className="font-bold text-lg text-slate-800">VIP Membership</p>
+                    </div>
+                    <p className="text-sm text-slate-600 leading-relaxed">Akses eksklusif ke seluruh layanan Vista dengan benefit dan privilege premium</p>
                   </div>
                 </label>
               </div>
@@ -479,18 +540,16 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
 
           {currentStep === 3 && (
             <div className="space-y-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Konfigurasi Produk</h3>
-
               {data.productType === 'ea_trading' && (
                 <div className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">
                       Jenis EA <span className="text-red-500">*</span>
                     </label>
                     <select
                       value={data.eaType}
                       onChange={(e) => handleInputChange('eaType', e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
                     >
                       <option value="">Pilih Jenis EA</option>
                       <option value="gold">Gold EA</option>
@@ -499,13 +558,13 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">
                       Risk Profile <span className="text-red-500">*</span>
                     </label>
                     <select
                       value={data.riskProfile}
                       onChange={(e) => handleInputChange('riskProfile', e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
                     >
                       <option value="">Pilih Risk Profile</option>
                       <option value="aggressive">Agresif</option>
@@ -515,13 +574,13 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">
                       Maximum Drawdown <span className="text-red-500">*</span>
                     </label>
                     <select
                       value={data.maxDrawdown}
                       onChange={(e) => handleInputChange('maxDrawdown', e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
                     >
                       <option value="">Pilih Max Drawdown</option>
                       <option value="10">10%</option>
@@ -530,22 +589,25 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                     </select>
                   </div>
 
-                  <p className="text-xs text-gray-500">
-                    Semua pilihan dicatat sebagai keputusan klien.
-                  </p>
+                  <div className="flex items-center gap-2 p-4 bg-slate-50 border border-slate-200 rounded-xl">
+                    <Shield className="h-4 w-4 text-slate-500 flex-shrink-0" />
+                    <p className="text-xs text-slate-600">
+                      Semua konfigurasi dicatat sebagai keputusan dan preferensi klien
+                    </p>
+                  </div>
                 </div>
               )}
 
               {data.productType === 'bimbel_prop' && (
                 <div className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">
                       Tujuan Mengikuti Program <span className="text-red-500">*</span>
                     </label>
                     <select
                       value={data.programGoal}
                       onChange={(e) => handleInputChange('programGoal', e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
                     >
                       <option value="">Pilih Tujuan Program</option>
                       <option value="intermediate">Intermediate</option>
@@ -558,15 +620,15 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
               {data.productType === 'vip_membership' && (
                 <div className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">
                       Tujuan Mengikuti VIP Membership <span className="text-red-500">*</span>
                     </label>
                     <textarea
                       value={data.vipGoal}
                       onChange={(e) => handleInputChange('vipGoal', e.target.value)}
-                      rows={4}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Jelaskan tujuan Anda mengikuti VIP Membership..."
+                      rows={5}
+                      className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all placeholder:text-slate-400"
+                      placeholder="Jelaskan tujuan dan harapan Anda mengikuti VIP Membership..."
                     />
                   </div>
                 </div>
@@ -576,31 +638,29 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
 
           {currentStep === 4 && (
             <div className="space-y-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Konfirmasi & Persetujuan</h3>
-
-              <div className="bg-gray-50 rounded-lg p-6 space-y-4">
-                <h4 className="font-semibold text-gray-900">Ringkasan Registrasi</h4>
+              <div className="bg-gradient-to-br from-slate-50 to-teal-50/30 rounded-2xl p-6 border border-slate-200 space-y-4">
+                <h4 className="font-bold text-slate-800 text-lg">Ringkasan Registrasi</h4>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <p className="text-gray-600">Nama Lengkap</p>
-                    <p className="font-medium text-gray-900">{data.fullName}</p>
+                  <div className="bg-white/50 rounded-lg p-3">
+                    <p className="text-slate-500 text-xs mb-1">Nama Lengkap</p>
+                    <p className="font-semibold text-slate-800">{data.fullName}</p>
                   </div>
-                  <div>
-                    <p className="text-gray-600">Email</p>
-                    <p className="font-medium text-gray-900">{data.email}</p>
+                  <div className="bg-white/50 rounded-lg p-3">
+                    <p className="text-slate-500 text-xs mb-1">Email</p>
+                    <p className="font-semibold text-slate-800">{data.email}</p>
                   </div>
-                  <div>
-                    <p className="text-gray-600">WhatsApp</p>
-                    <p className="font-medium text-gray-900">{data.whatsapp}</p>
+                  <div className="bg-white/50 rounded-lg p-3">
+                    <p className="text-slate-500 text-xs mb-1">WhatsApp</p>
+                    <p className="font-semibold text-slate-800">{data.whatsapp}</p>
                   </div>
-                  <div>
-                    <p className="text-gray-600">Pekerjaan</p>
-                    <p className="font-medium text-gray-900">{data.occupation} - {data.position}</p>
+                  <div className="bg-white/50 rounded-lg p-3">
+                    <p className="text-slate-500 text-xs mb-1">Pekerjaan</p>
+                    <p className="font-semibold text-slate-800">{data.occupation} - {data.position}</p>
                   </div>
-                  <div className="md:col-span-2">
-                    <p className="text-gray-600">Produk</p>
-                    <p className="font-medium text-gray-900">
+                  <div className="md:col-span-2 bg-white/50 rounded-lg p-3">
+                    <p className="text-slate-500 text-xs mb-1">Produk Terpilih</p>
+                    <p className="font-bold text-teal-700">
                       {data.productType === 'ea_trading' && 'EA Trading'}
                       {data.productType === 'bimbel_prop' && 'Kelas Bimbel + Prop Funds'}
                       {data.productType === 'vip_membership' && 'VIP Membership'}
@@ -608,66 +668,74 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                   </div>
                   {data.productType === 'ea_trading' && (
                     <>
-                      <div>
-                        <p className="text-gray-600">Jenis EA</p>
-                        <p className="font-medium text-gray-900">{data.eaType === 'gold' ? 'Gold EA' : 'Forex EA'}</p>
+                      <div className="bg-white/50 rounded-lg p-3">
+                        <p className="text-slate-500 text-xs mb-1">Jenis EA</p>
+                        <p className="font-semibold text-slate-800">{data.eaType === 'gold' ? 'Gold EA' : 'Forex EA'}</p>
                       </div>
-                      <div>
-                        <p className="text-gray-600">Risk Profile</p>
-                        <p className="font-medium text-gray-900">
+                      <div className="bg-white/50 rounded-lg p-3">
+                        <p className="text-slate-500 text-xs mb-1">Risk Profile</p>
+                        <p className="font-semibold text-slate-800">
                           {data.riskProfile === 'aggressive' && 'Agresif'}
                           {data.riskProfile === 'moderate' && 'Moderat'}
                           {data.riskProfile === 'conservative' && 'Konservatif'}
                         </p>
                       </div>
-                      <div>
-                        <p className="text-gray-600">Max Drawdown</p>
-                        <p className="font-medium text-gray-900">{data.maxDrawdown}%</p>
+                      <div className="bg-white/50 rounded-lg p-3">
+                        <p className="text-slate-500 text-xs mb-1">Max Drawdown</p>
+                        <p className="font-semibold text-slate-800">{data.maxDrawdown}%</p>
                       </div>
                     </>
                   )}
-                  <div>
-                    <p className="text-gray-600">Status KYC</p>
-                    <p className="font-medium text-green-600">KTP Uploaded</p>
+                  <div className="bg-white/50 rounded-lg p-3">
+                    <p className="text-slate-500 text-xs mb-1">Status KYC</p>
+                    <div className="flex items-center gap-2">
+                      <Check className="h-4 w-4 text-emerald-600" />
+                      <p className="font-semibold text-emerald-700">KTP Uploaded</p>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 space-y-4">
-                <h4 className="font-semibold text-blue-900">Persetujuan Wajib</h4>
+              <div className="bg-gradient-to-br from-teal-50 to-emerald-50 border-2 border-teal-200 rounded-2xl p-6 space-y-5">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-10 h-10 bg-teal-500 rounded-lg flex items-center justify-center">
+                    <Shield className="h-5 w-5 text-white" />
+                  </div>
+                  <h4 className="font-bold text-teal-900 text-lg">Persetujuan Wajib</h4>
+                </div>
 
-                <label className="flex items-start gap-3 cursor-pointer">
+                <label className="flex items-start gap-4 cursor-pointer group hover:bg-white/40 p-3 rounded-lg transition-all">
                   <input
                     type="checkbox"
                     checked={data.consentDataAccuracy}
                     onChange={(e) => handleInputChange('consentDataAccuracy', e.target.checked)}
-                    className="mt-1 w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                    className="mt-0.5 w-5 h-5 text-teal-600 bg-white border-2 border-slate-300 rounded focus:ring-2 focus:ring-teal-500 cursor-pointer"
                   />
-                  <span className="text-sm text-gray-700">
-                    Saya menyatakan data yang diisi benar dan dapat dipertanggungjawabkan
+                  <span className="text-sm text-slate-700 leading-relaxed">
+                    Saya menyatakan bahwa seluruh data yang diisi adalah benar dan dapat dipertanggungjawabkan
                   </span>
                 </label>
 
-                <label className="flex items-start gap-3 cursor-pointer">
+                <label className="flex items-start gap-4 cursor-pointer group hover:bg-white/40 p-3 rounded-lg transition-all">
                   <input
                     type="checkbox"
                     checked={data.consentRiskUnderstanding}
                     onChange={(e) => handleInputChange('consentRiskUnderstanding', e.target.checked)}
-                    className="mt-1 w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                    className="mt-0.5 w-5 h-5 text-teal-600 bg-white border-2 border-slate-300 rounded focus:ring-2 focus:ring-teal-500 cursor-pointer"
                   />
-                  <span className="text-sm text-gray-700">
-                    Saya memahami risiko terkait produk trading dan investasi
+                  <span className="text-sm text-slate-700 leading-relaxed">
+                    Saya memahami risiko terkait produk trading dan investasi yang saya pilih
                   </span>
                 </label>
 
-                <label className="flex items-start gap-3 cursor-pointer">
+                <label className="flex items-start gap-4 cursor-pointer group hover:bg-white/40 p-3 rounded-lg transition-all">
                   <input
                     type="checkbox"
                     checked={data.consentVerificationProcess}
                     onChange={(e) => handleInputChange('consentVerificationProcess', e.target.checked)}
-                    className="mt-1 w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                    className="mt-0.5 w-5 h-5 text-teal-600 bg-white border-2 border-slate-300 rounded focus:ring-2 focus:ring-teal-500 cursor-pointer"
                   />
-                  <span className="text-sm text-gray-700">
+                  <span className="text-sm text-slate-700 leading-relaxed">
                     Saya bersedia mengikuti proses verifikasi lanjutan dari tim Vista
                   </span>
                 </label>
@@ -675,11 +743,11 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
             </div>
           )}
 
-          <div className="flex justify-between mt-8 pt-6 border-t border-gray-200">
+          <div className="flex justify-between items-center mt-8 pt-8 border-t-2 border-slate-200">
             <button
               onClick={handleBack}
               disabled={currentStep === 1 || loading}
-              className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="px-6 py-3 border-2 border-slate-300 rounded-xl text-slate-700 font-semibold hover:bg-slate-50 hover:border-slate-400 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
             >
               Kembali
             </button>
@@ -688,7 +756,7 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
               <button
                 onClick={handleNext}
                 disabled={loading}
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="px-8 py-3 bg-gradient-to-r from-teal-600 to-emerald-600 text-white rounded-xl font-semibold hover:from-teal-700 hover:to-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-teal-500/30 hover:shadow-xl hover:shadow-teal-500/40"
               >
                 Lanjutkan
               </button>
@@ -696,11 +764,12 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
               <button
                 onClick={handleSubmit}
                 disabled={loading}
-                className="px-8 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed font-semibold transition-colors"
+                className="px-10 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-xl font-bold hover:from-emerald-700 hover:to-teal-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-xl shadow-emerald-500/40 hover:shadow-2xl hover:shadow-emerald-500/50 text-lg"
               >
                 {loading ? 'Memproses...' : 'Submit Registration'}
               </button>
             )}
+          </div>
           </div>
         </div>
       </div>

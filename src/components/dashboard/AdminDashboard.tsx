@@ -156,17 +156,17 @@ export function AdminDashboard() {
     <>
       {mustChangePassword && <PasswordChangeModal />}
 
-      <div className="min-h-screen bg-slate-900">
-        <header className="bg-slate-800 border-b border-slate-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        <header className="bg-slate-800/80 backdrop-blur-sm border-b border-teal-500/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-2xl font-bold text-white">Admin Dashboard</h1>
-              <p className="text-slate-400 text-sm mt-1">Vista Produk - Client Management</p>
+              <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-teal-100 to-emerald-100">Vista Admin Portal</h1>
+              <p className="text-slate-300 text-sm mt-1.5 font-medium">Client Management & Onboarding System</p>
             </div>
             <button
               onClick={signOut}
-              className="flex items-center gap-2 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors"
+              className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-slate-700 to-slate-600 hover:from-slate-600 hover:to-slate-500 text-white rounded-xl transition-all font-semibold shadow-lg"
             >
               <LogOut className="h-4 w-4" />
               Logout
@@ -175,60 +175,70 @@ export function AdminDashboard() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold text-white mb-2">Dashboard Overview</h2>
-          <p className="text-slate-400">Snapshot cepat kondisi onboarding</p>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold text-white mb-2">Dashboard Overview</h2>
+          <p className="text-slate-300 text-lg">Monitoring dan manajemen client onboarding</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
-          <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-10">
+          <div className="bg-gradient-to-br from-slate-800 to-slate-700 rounded-2xl p-6 border border-teal-500/30 shadow-lg hover:shadow-teal-500/20 transition-shadow">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-slate-400 text-sm">Total Submissions</p>
-                <p className="text-3xl font-bold text-white mt-1">{stats.total}</p>
+                <p className="text-slate-300 text-sm font-medium">Total Submissions</p>
+                <p className="text-4xl font-bold text-white mt-2">{stats.total}</p>
               </div>
-              <Users className="h-10 w-10 text-blue-400" />
+              <div className="w-12 h-12 bg-teal-500/20 rounded-xl flex items-center justify-center">
+                <Users className="h-7 w-7 text-teal-400" />
+              </div>
             </div>
           </div>
 
-          <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
+          <div className="bg-gradient-to-br from-slate-800 to-slate-700 rounded-2xl p-6 border border-emerald-500/30 shadow-lg hover:shadow-emerald-500/20 transition-shadow">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-slate-400 text-sm">Today</p>
-                <p className="text-3xl font-bold text-white mt-1">{stats.today}</p>
+                <p className="text-slate-300 text-sm font-medium">Today</p>
+                <p className="text-4xl font-bold text-white mt-2">{stats.today}</p>
               </div>
-              <Calendar className="h-10 w-10 text-purple-400" />
+              <div className="w-12 h-12 bg-emerald-500/20 rounded-xl flex items-center justify-center">
+                <Calendar className="h-7 w-7 text-emerald-400" />
+              </div>
             </div>
           </div>
 
-          <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
+          <div className="bg-gradient-to-br from-slate-800 to-slate-700 rounded-2xl p-6 border border-amber-500/30 shadow-lg hover:shadow-amber-500/20 transition-shadow">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-slate-400 text-sm">Pending Review</p>
-                <p className="text-3xl font-bold text-white mt-1">{stats.pending}</p>
+                <p className="text-slate-300 text-sm font-medium">Pending Review</p>
+                <p className="text-4xl font-bold text-white mt-2">{stats.pending}</p>
               </div>
-              <Clock className="h-10 w-10 text-yellow-400" />
+              <div className="w-12 h-12 bg-amber-500/20 rounded-xl flex items-center justify-center">
+                <Clock className="h-7 w-7 text-amber-400" />
+              </div>
             </div>
           </div>
 
-          <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
+          <div className="bg-gradient-to-br from-slate-800 to-slate-700 rounded-2xl p-6 border border-emerald-500/30 shadow-lg hover:shadow-emerald-500/20 transition-shadow">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-slate-400 text-sm">Approved</p>
-                <p className="text-3xl font-bold text-white mt-1">{stats.approved}</p>
+                <p className="text-slate-300 text-sm font-medium">Approved</p>
+                <p className="text-4xl font-bold text-white mt-2">{stats.approved}</p>
               </div>
-              <CheckCircle2 className="h-10 w-10 text-green-400" />
+              <div className="w-12 h-12 bg-emerald-500/20 rounded-xl flex items-center justify-center">
+                <CheckCircle2 className="h-7 w-7 text-emerald-400" />
+              </div>
             </div>
           </div>
 
-          <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
+          <div className="bg-gradient-to-br from-slate-800 to-slate-700 rounded-2xl p-6 border border-red-500/30 shadow-lg hover:shadow-red-500/20 transition-shadow">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-slate-400 text-sm">Rejected</p>
-                <p className="text-3xl font-bold text-white mt-1">{stats.rejected}</p>
+                <p className="text-slate-300 text-sm font-medium">Rejected</p>
+                <p className="text-4xl font-bold text-white mt-2">{stats.rejected}</p>
               </div>
-              <XCircle className="h-10 w-10 text-red-400" />
+              <div className="w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center">
+                <XCircle className="h-7 w-7 text-red-400" />
+              </div>
             </div>
           </div>
         </div>
@@ -344,7 +354,7 @@ export function AdminDashboard() {
                         <td className="px-6 py-4">
                           <button
                             onClick={() => setSelectedClientId(client.id)}
-                            className="flex items-center gap-2 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors text-sm"
+                            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white rounded-lg transition-all text-sm font-semibold shadow-lg shadow-teal-500/30 hover:shadow-xl hover:shadow-teal-500/40"
                           >
                             <Eye className="h-4 w-4" />
                             Review
