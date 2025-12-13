@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { OnboardingStepper } from './OnboardingStepper';
 import { AlertCircle, Upload, Check, Shield } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
-import { useAuth } from '../../hooks/useAuth';
 
 const STEPS = [
   { number: 1, title: 'Data & KYC' },
@@ -31,14 +30,17 @@ interface OnboardingData {
   agreedToDisclaimer: boolean;
 }
 
-export function VistaOnboardingForm() {
-  const { user } = useAuth();
+interface VistaOnboardingFormProps {
+  onSuccess?: () => void;
+}
+
+export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [data, setData] = useState<OnboardingData>({
     fullName: '',
-    email: user?.email || '',
+    email: '',
     whatsapp: '',
     occupation: '',
     position: '',
@@ -155,7 +157,7 @@ export function VistaOnboardingForm() {
 
       if (data.ktpFile) {
         const fileExt = data.ktpFile.name.split('.').pop();
-        const fileName = `${user?.id}-${Date.now()}.${fileExt}`;
+        const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
         const filePath = `ktp/${fileName}`;
 
         const { error: uploadError } = await supabase.storage
@@ -185,7 +187,7 @@ export function VistaOnboardingForm() {
       const { data: clientData, error: insertError } = await supabase
         .from('clients')
         .insert({
-          user_id: user?.id,
+          user_id: null,
           full_name: data.fullName,
           email: data.email,
           whatsapp: data.whatsapp,
@@ -228,14 +230,9 @@ export function VistaOnboardingForm() {
         await supabase.from('client_onboarding_progress').insert(progressRecords);
       }
 
-      await supabase.from('notifications').insert({
-        user_id: user?.id,
-        title: 'Registrasi Berhasil',
-        message: 'Registrasi Anda berhasil. Tim Vista akan melanjutkan proses verifikasi.',
-        type: 'success',
-      });
-
-      window.location.reload();
+      if (onSuccess) {
+        onSuccess();
+      }
     } catch (err: any) {
       console.error('Error submitting registration:', err);
       setError('Terjadi kesalahan saat submit. Silakan coba lagi.');
@@ -253,6 +250,19 @@ export function VistaOnboardingForm() {
           <p className="text-sm text-gray-600 mt-1">
             Halaman ini merupakan bagian dari prosedur internal perusahaan untuk proses onboarding klien.
           </p>
+          <div className="mt-4">
+            <a
+              href="/admin"
+              onClick={(e) => {
+                e.preventDefault();
+                window.history.pushState({}, '', '/admin');
+                window.location.reload();
+              }}
+              className="text-sm text-blue-600 hover:text-blue-700 underline"
+            >
+              Login sebagai Admin
+            </a>
+          </div>
         </div>
 
         {currentStep === 1 && (

@@ -1,19 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from './hooks/useAuth';
-import { supabase } from './lib/supabase';
-import { LoginForm } from './components/auth/LoginForm';
-import { RegisterForm } from './components/auth/RegisterForm';
-import { ClientDashboard } from './components/dashboard/ClientDashboard';
 import { AdminLoginForm } from './components/auth/AdminLoginForm';
 import { AdminDashboard } from './components/dashboard/AdminDashboard';
 import { VistaOnboardingForm } from './components/onboarding/VistaOnboardingForm';
 
 function App() {
-  const { user, loading, signOut, isAdmin, userRole } = useAuth();
-  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
-  const [hasClientProfile, setHasClientProfile] = useState(false);
-  const [checkingProfile, setCheckingProfile] = useState(true);
+  const { user, loading, isAdmin } = useAuth();
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
     const handlePopState = () => {
@@ -24,39 +18,7 @@ function App() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  useEffect(() => {
-    if (user) {
-      if (!isAdmin) {
-        checkClientProfile();
-      } else {
-        setCheckingProfile(false);
-      }
-    } else {
-      setCheckingProfile(false);
-    }
-  }, [user, isAdmin]);
-
-  const checkClientProfile = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('clients')
-        .select('id')
-        .eq('user_id', user?.id)
-        .maybeSingle();
-
-      if (error) throw error;
-
-      setHasClientProfile(!!data);
-    } catch (error) {
-      console.error('Error checking client profile:', error);
-      setHasClientProfile(false);
-    } finally {
-      setCheckingProfile(false);
-    }
-  };
-
-
-  if (loading || checkingProfile) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center">
         <div className="text-center">
@@ -67,59 +29,41 @@ function App() {
     );
   }
 
-  if (!user) {
-    if (currentPath === '/admin') {
+  if (currentPath === '/admin') {
+    if (!user || !isAdmin) {
       return <AdminLoginForm />;
     }
+    return <AdminDashboard />;
+  }
 
+  if (showSuccess) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-4">
-        <div className="w-full max-w-6xl">
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">Vista Produk</h1>
-            <p className="text-gray-600">Sistem Onboarding Client</p>
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full text-center">
+          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
           </div>
-
-          {authMode === 'login' ? (
-            <div className="flex justify-center">
-              <LoginForm onToggleMode={() => setAuthMode('register')} />
-            </div>
-          ) : (
-            <div className="flex justify-center">
-              <RegisterForm
-                onToggleMode={() => setAuthMode('login')}
-                onRegistrationComplete={() => {}}
-              />
-            </div>
-          )}
-
-          <div className="text-center mt-6">
-            <a
-              href="/admin"
-              onClick={(e) => {
-                e.preventDefault();
-                window.history.pushState({}, '', '/admin');
-                setCurrentPath('/admin');
-              }}
-              className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
-            >
-              Login sebagai Admin
-            </a>
-          </div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Registrasi Berhasil!</h2>
+          <p className="text-gray-600 mb-6">
+            Terima kasih telah melengkapi formulir registrasi. Tim kami akan segera menghubungi Anda untuk proses selanjutnya.
+          </p>
+          <button
+            onClick={() => {
+              setShowSuccess(false);
+              window.location.reload();
+            }}
+            className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+          >
+            Registrasi Lagi
+          </button>
         </div>
       </div>
     );
   }
 
-  if (!hasClientProfile) {
-    return <VistaOnboardingForm />;
-  }
-
-  if (isAdmin) {
-    return <AdminDashboard />;
-  }
-
-  return <ClientDashboard />;
+  return <VistaOnboardingForm onSuccess={() => setShowSuccess(true)} />;
 }
 
 export default App;
