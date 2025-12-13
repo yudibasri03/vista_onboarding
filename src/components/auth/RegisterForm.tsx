@@ -65,7 +65,14 @@ export function RegisterForm({ onToggleMode, onRegistrationComplete, showLoginLi
         business_type: formData.business_type,
       });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Gagal membuat akun');
+      const errorMessage = err instanceof Error ? err.message : 'Gagal membuat akun';
+      if (errorMessage.includes('User already registered') || errorMessage.includes('already exists')) {
+        setError('Email sudah terdaftar. Silakan login atau gunakan email lain.');
+      } else if (errorMessage.includes('Password')) {
+        setError('Password terlalu lemah. Gunakan minimal 6 karakter.');
+      } else {
+        setError(errorMessage);
+      }
     } finally {
       setLoading(false);
     }

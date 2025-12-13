@@ -21,7 +21,14 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
     try {
       await signIn(email, password);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to sign in');
+      const errorMessage = err instanceof Error ? err.message : 'Gagal login';
+      if (errorMessage.includes('Invalid login credentials')) {
+        setError('Email atau password salah. Silakan coba lagi.');
+      } else if (errorMessage.includes('Email not confirmed')) {
+        setError('Email belum dikonfirmasi. Silakan cek inbox Anda.');
+      } else {
+        setError(errorMessage);
+      }
     } finally {
       setLoading(false);
     }
@@ -77,11 +84,11 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
             disabled={loading}
             className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            {loading ? 'Signing in...' : 'Sign In'}
+            {loading ? 'Login...' : 'Login'}
           </button>
         </form>
 
-        <div className="mt-6 text-center">
+        <div className="mt-6 text-center space-y-2">
           <p className="text-sm text-gray-600">
             Belum punya akun?{' '}
             <button
