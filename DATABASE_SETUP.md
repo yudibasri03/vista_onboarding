@@ -8,7 +8,8 @@ Your new Supabase database (`qkjcycsmnbihgyjqhmzz`) needs to have all migrations
    - Go to: https://supabase.com/dashboard/project/qkjcycsmnbihgyjqhmzz/sql
 
 2. **Execute the Combined Migration**
-   - Copy the contents of `/tmp/combined_migration.sql` (or combine all migrations from `supabase/migrations/` folder)
+   - Copy the contents of `combined_migration.sql` in the project root
+   - Or copy from any file in `supabase/migrations/` folder
    - Paste into the SQL Editor
    - Click "Run" to execute
 
@@ -73,6 +74,6 @@ curl -X POST "https://qkjcycsmnbihgyjqhmzz.supabase.co/functions/v1/setup-admin"
 
 ## Files Location
 
-- Combined migration: `/tmp/combined_migration.sql`
+- Combined migration: `combined_migration.sql` (project root)
 - Individual migrations: `supabase/migrations/*.sql`
 - Super admin setup: `SUPER_ADMIN_SETUP.md`
