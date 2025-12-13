@@ -84,20 +84,14 @@ export function ClientDetailView({ clientId, onClose, onUpdate }: ClientDetailVi
 
       const { data: logsData } = await supabase
         .from('audit_logs')
-        .select(`
-          id,
-          action,
-          details,
-          created_at,
-          admin:auth.users!audit_logs_admin_id_fkey(email)
-        `)
+        .select('id, action, details, created_at, admin_id')
         .eq('client_id', clientId)
         .order('created_at', { ascending: false });
 
       if (logsData) {
         setAuditLogs(logsData.map(log => ({
           ...log,
-          admin_email: log.admin?.email || 'System'
+          admin_email: log.admin_id ? 'Admin' : 'System'
         })));
       }
     } catch (error) {
@@ -170,12 +164,14 @@ export function ClientDetailView({ clientId, onClose, onUpdate }: ClientDetailVi
         new_status: 'approved',
       });
 
-      await supabase.from('notifications').insert({
-        user_id: client?.user_id,
-        title: 'Onboarding Disetujui',
-        message: 'Selamat! Onboarding Anda telah disetujui. Tim kami akan segera menghubungi Anda.',
-        type: 'success',
-      });
+      if (client?.user_id) {
+        await supabase.from('notifications').insert({
+          user_id: client.user_id,
+          title: 'Onboarding Disetujui',
+          message: 'Selamat! Onboarding Anda telah disetujui. Tim kami akan segera menghubungi Anda.',
+          type: 'success',
+        });
+      }
 
       setShowApprovalConfirm(false);
       onUpdate();
@@ -202,12 +198,14 @@ export function ClientDetailView({ clientId, onClose, onUpdate }: ClientDetailVi
         reason: kycNotes,
       });
 
-      await supabase.from('notifications').insert({
-        user_id: client?.user_id,
-        title: 'Onboarding Ditolak',
-        message: 'Mohon maaf, onboarding Anda belum dapat disetujui. Silakan hubungi tim kami untuk informasi lebih lanjut.',
-        type: 'error',
-      });
+      if (client?.user_id) {
+        await supabase.from('notifications').insert({
+          user_id: client.user_id,
+          title: 'Onboarding Ditolak',
+          message: 'Mohon maaf, onboarding Anda belum dapat disetujui. Silakan hubungi tim kami untuk informasi lebih lanjut.',
+          type: 'error',
+        });
+      }
 
       setShowRejectConfirm(false);
       onUpdate();
