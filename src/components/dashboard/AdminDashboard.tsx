@@ -158,9 +158,9 @@ export function AdminDashboard() {
 
     const getRiskLabel = (risk: string | null) => {
       switch (risk) {
-        case 'aggressive': return 'Agresif';
-        case 'moderate': return 'Moderat';
-        case 'conservative': return 'Konservatif';
+        case 'aggressive': return 'Aggressive (Resiko Sangat Tinggi)';
+        case 'moderate': return 'Moderate (Resiko Tinggi)';
+        case 'conservative': return 'Conservative (Resiko Sedang)';
         default: return '-';
       }
     };
@@ -433,9 +433,9 @@ export function AdminDashboard() {
 
                     const getRiskLabel = () => {
                       switch (client.risk_profile) {
-                        case 'aggressive': return 'Agresif';
-                        case 'moderate': return 'Moderat';
-                        case 'conservative': return 'Konservatif';
+                        case 'aggressive': return 'Aggressive (Resiko Sangat Tinggi)';
+                        case 'moderate': return 'Moderate (Resiko Tinggi)';
+                        case 'conservative': return 'Conservative (Resiko Sedang)';
                         default: return '-';
                       }
                     };

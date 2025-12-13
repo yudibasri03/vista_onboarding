@@ -243,9 +243,9 @@ export function ClientDetailView({ clientId, onClose, onUpdate }: ClientDetailVi
 
   const getRiskLabel = () => {
     switch (client.risk_profile) {
-      case 'aggressive': return 'Agresif';
-      case 'moderate': return 'Moderat';
-      case 'conservative': return 'Konservatif';
+      case 'aggressive': return 'Aggressive (Resiko Sangat Tinggi)';
+      case 'moderate': return 'Moderate (Resiko Tinggi)';
+      case 'conservative': return 'Conservative (Resiko Sedang)';
       default: return '-';
     }
   };

@@ -571,9 +571,9 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                       className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all shadow-sm"
                     >
                       <option value="">Pilih Risk Profile</option>
-                      <option value="aggressive">Agresif</option>
-                      <option value="moderate">Moderat</option>
-                      <option value="conservative">Konservatif</option>
+                      <option value="aggressive">Aggressive (Resiko Sangat Tinggi)</option>
+                      <option value="moderate">Moderate (Resiko Tinggi)</option>
+                      <option value="conservative">Conservative (Resiko Sedang)</option>
                     </select>
                   </div>
 
@@ -679,9 +679,9 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                       <div className="bg-white rounded-lg p-3 shadow-sm border border-slate-200">
                         <p className="text-slate-600 text-xs mb-1">Risk Profile</p>
                         <p className="font-semibold text-slate-900">
-                          {data.riskProfile === 'aggressive' && 'Agresif'}
-                          {data.riskProfile === 'moderate' && 'Moderat'}
-                          {data.riskProfile === 'conservative' && 'Konservatif'}
+                          {data.riskProfile === 'aggressive' && 'Aggressive (Resiko Sangat Tinggi)'}
+                          {data.riskProfile === 'moderate' && 'Moderate (Resiko Tinggi)'}
+                          {data.riskProfile === 'conservative' && 'Conservative (Resiko Sedang)'}
                         </p>
                       </div>
                       <div className="bg-white rounded-lg p-3 shadow-sm border border-slate-200">
