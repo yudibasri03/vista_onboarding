@@ -15,7 +15,8 @@ import {
   Filter,
   Shield,
   XCircle,
-  Calendar
+  Calendar,
+  Download
 } from 'lucide-react';
 
 interface Client {
@@ -144,6 +145,67 @@ export function AdminDashboard() {
     rejected: clients.filter(c => c.status === 'rejected').length
   };
 
+  const exportToCSV = () => {
+    const getProductLabel = (type: string | null) => {
+      switch (type) {
+        case 'ea_trading': return 'EA Trading';
+        case 'bimbel_prop': return 'Bimbel + Prop';
+        case 'vip_membership': return 'VIP Member';
+        default: return '-';
+      }
+    };
+
+    const getRiskLabel = (risk: string | null) => {
+      switch (risk) {
+        case 'aggressive': return 'Agresif';
+        case 'moderate': return 'Moderat';
+        case 'conservative': return 'Konservatif';
+        default: return '-';
+      }
+    };
+
+    const headers = [
+      'Full Name',
+      'Company Name',
+      'PIC Name',
+      'Email',
+      'Phone',
+      'Product Type',
+      'Risk Profile',
+      'Business Type',
+      'Status',
+      'Registration Date',
+      'Created At'
+    ];
+
+    const csvContent = [
+      headers.join(','),
+      ...filteredClients.map(client => [
+        `"${client.full_name || '-'}"`,
+        `"${client.company_name || '-'}"`,
+        `"${client.pic_name || '-'}"`,
+        `"${client.email}"`,
+        `"${client.phone || '-'}"`,
+        `"${getProductLabel(client.product_type)}"`,
+        `"${getRiskLabel(client.risk_profile)}"`,
+        `"${client.business_type || '-'}"`,
+        `"${client.status}"`,
+        `"${client.registration_completed_at ? new Date(client.registration_completed_at).toLocaleString('id-ID') : '-'}"`,
+        `"${new Date(client.created_at).toLocaleString('id-ID')}"`
+      ].join(','))
+    ].join('\n');
+
+    const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `vista-clients-report-${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center">
@@ -249,7 +311,7 @@ export function AdminDashboard() {
 
         <div className="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden">
           <div className="p-6 border-b border-slate-700">
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 items-end">
               <div className="flex-1 relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
                 <input
@@ -261,20 +323,31 @@ export function AdminDashboard() {
                 />
               </div>
 
-              <div className="flex items-center gap-2">
-                <Filter className="h-5 w-5 text-slate-400" />
-                <select
-                  value={statusFilter}
-                  onChange={(e) => setStatusFilter(e.target.value)}
-                  className="px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
+                  <Filter className="h-5 w-5 text-slate-400" />
+                  <select
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                    className="px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  >
+                    <option value="all">All Status</option>
+                    <option value="pending">Pending</option>
+                    <option value="verified">Verified</option>
+                    <option value="approved">Approved</option>
+                    <option value="active">Active</option>
+                    <option value="rejected">Rejected</option>
+                  </select>
+                </div>
+
+                <button
+                  onClick={exportToCSV}
+                  disabled={filteredClients.length === 0}
+                  className="flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 disabled:from-slate-600 disabled:to-slate-600 disabled:cursor-not-allowed text-white rounded-lg transition-all font-semibold shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:shadow-emerald-500/40"
                 >
-                  <option value="all">All Status</option>
-                  <option value="pending">Pending</option>
-                  <option value="verified">Verified</option>
-                  <option value="approved">Approved</option>
-                  <option value="active">Active</option>
-                  <option value="rejected">Rejected</option>
-                </select>
+                  <Download className="h-4 w-4" />
+                  Export CSV
+                </button>
               </div>
             </div>
           </div>
