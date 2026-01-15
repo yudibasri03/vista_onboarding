@@ -20,10 +20,10 @@ export function OnboardingStepper({ currentStep, steps }: OnboardingStepperProps
               <div
                 className={`w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 rounded-lg md:rounded-2xl flex items-center justify-center font-bold text-sm sm:text-base md:text-lg transition-all duration-300 shadow-md md:shadow-lg ${
                   currentStep > step.number
-                    ? 'bg-orange-500 text-white shadow-orange-500/40'
+                    ? 'bg-gradient-to-br from-amber-500 to-yellow-500 text-white shadow-amber-500/40'
                     : currentStep === step.number
-                    ? 'bg-orange-500 text-white ring-2 md:ring-4 ring-orange-400 shadow-orange-500/50 scale-105 md:scale-110'
-                    : 'bg-slate-700 text-slate-400 shadow-slate-900/30'
+                    ? 'bg-gradient-to-br from-amber-600 to-yellow-600 text-white ring-2 md:ring-4 ring-amber-200 shadow-amber-500/50 scale-105 md:scale-110'
+                    : 'bg-slate-200 text-slate-400 shadow-slate-300/30'
                 }`}
               >
                 {currentStep > step.number ? (
@@ -43,11 +43,11 @@ export function OnboardingStepper({ currentStep, steps }: OnboardingStepperProps
               </div>
             </div>
             {index < steps.length - 1 && (
-              <div className="flex-1 h-1.5 md:h-2 mx-1 sm:mx-2 md:mx-6 mb-6 sm:mb-8 md:mb-10 rounded-full overflow-hidden bg-slate-700">
+              <div className="flex-1 h-1.5 md:h-2 mx-1 sm:mx-2 md:mx-6 mb-6 sm:mb-8 md:mb-10 rounded-full overflow-hidden bg-slate-700/30">
                 <div
                   className={`h-full rounded-full transition-all duration-500 ${
                     currentStep > step.number
-                      ? 'bg-orange-500 w-full'
+                      ? 'bg-gradient-to-r from-amber-500 to-yellow-500 w-full'
                       : 'w-0'
                   }`}
                 />
