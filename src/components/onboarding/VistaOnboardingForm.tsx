@@ -242,17 +242,17 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-teal-900 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 bg-grid-pattern py-12">
       <div className="max-w-5xl mx-auto px-4">
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center mb-6">
+        <div className="text-center mb-10 animate-fade-in">
+          <div className="inline-flex items-center justify-center mb-6 animate-float">
             <img
               src="/vista-logo_white.png"
               alt="Vista Penasihat Berjangka"
               className="h-16 w-auto"
             />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white via-teal-100 to-emerald-100">
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white via-amber-100 to-yellow-100">
             Client Onboarding Portal
           </h1>
           <p className="text-lg text-slate-300 max-w-2xl mx-auto mb-2">
@@ -269,10 +269,10 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                 window.history.pushState({}, '', '/admin');
                 window.location.reload();
               }}
-              className="inline-flex items-center gap-2 text-sm text-teal-400 hover:text-teal-300 transition-colors group"
+              className="inline-flex items-center gap-2 text-sm text-amber-400 hover:text-amber-300 transition-colors group"
             >
               <Shield className="h-4 w-4 group-hover:scale-110 transition-transform" />
-              <span className="border-b border-teal-400/50 group-hover:border-teal-300">Admin Portal</span>
+              <span className="border-b border-amber-400/50 group-hover:border-amber-300">Admin Portal</span>
             </a>
           </div>
         </div>
@@ -295,7 +295,7 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                     type="checkbox"
                     checked={data.agreedToDisclaimer}
                     onChange={(e) => handleInputChange('agreedToDisclaimer', e.target.checked)}
-                    className="w-5 h-5 text-teal-500 bg-slate-700 border-slate-600 rounded focus:ring-2 focus:ring-teal-500 cursor-pointer"
+                    className="w-5 h-5 text-amber-500 bg-slate-700 border-slate-600 rounded focus:ring-2 focus:ring-amber-500 cursor-pointer"
                   />
                   <span className="text-sm text-amber-100 font-medium group-hover:text-amber-50 transition-colors">
                     Saya memahami dan menyetujui tujuan halaman ini
@@ -308,8 +308,8 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
 
         <OnboardingStepper currentStep={currentStep} steps={STEPS} />
 
-        <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl border-2 border-teal-500/40 overflow-hidden">
-          <div className="bg-gradient-to-r from-slate-800 via-slate-700 to-teal-800 px-8 py-6 border-b-4 border-teal-500/50">
+        <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl border-2 border-amber-500/40 overflow-hidden animate-slide-up">
+          <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-amber-900 px-8 py-6 border-b-4 border-amber-500/50">
             <h2 className="text-2xl font-bold text-white">
               {currentStep === 1 && 'Data Pribadi & KYC'}
               {currentStep === 2 && 'Pemilihan Produk'}
@@ -345,7 +345,7 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                     type="text"
                     value={data.fullName}
                     onChange={(e) => handleInputChange('fullName', e.target.value)}
-                    className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all placeholder:text-slate-400 shadow-sm"
+                    className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all placeholder:text-slate-400 shadow-sm"
                     placeholder="Nama lengkap sesuai KTP"
                   />
                 </div>
@@ -358,7 +358,7 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                     type="email"
                     value={data.email}
                     onChange={(e) => handleInputChange('email', e.target.value)}
-                    className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all placeholder:text-slate-400 shadow-sm"
+                    className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all placeholder:text-slate-400 shadow-sm"
                     placeholder="email@example.com"
                   />
                 </div>
@@ -371,7 +371,7 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                     type="tel"
                     value={data.whatsapp}
                     onChange={(e) => handleInputChange('whatsapp', e.target.value)}
-                    className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all placeholder:text-slate-400 shadow-sm"
+                    className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all placeholder:text-slate-400 shadow-sm"
                     placeholder="+62 812 3456 7890"
                   />
                 </div>
@@ -384,7 +384,7 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                     type="text"
                     value={data.occupation}
                     onChange={(e) => handleInputChange('occupation', e.target.value)}
-                    className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all placeholder:text-slate-400 shadow-sm"
+                    className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all placeholder:text-slate-400 shadow-sm"
                     placeholder="Pekerjaan Anda"
                   />
                 </div>
@@ -397,7 +397,7 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                     type="text"
                     value={data.position}
                     onChange={(e) => handleInputChange('position', e.target.value)}
-                    className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all placeholder:text-slate-400 shadow-sm"
+                    className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all placeholder:text-slate-400 shadow-sm"
                     placeholder="Jabatan Anda"
                   />
                 </div>
@@ -411,7 +411,7 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                   value={data.address}
                   onChange={(e) => handleInputChange('address', e.target.value)}
                   rows={3}
-                  className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all placeholder:text-slate-400 shadow-sm"
+                  className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all placeholder:text-slate-400 shadow-sm"
                   placeholder="Alamat lengkap domisili Anda"
                 />
               </div>
@@ -420,7 +420,7 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                 <label className="block text-sm font-semibold text-slate-800 mb-2">
                   Upload KTP (Depan) <span className="text-red-600">*</span>
                 </label>
-                <div className="border-2 border-dashed border-slate-300 rounded-xl p-8 text-center hover:border-teal-500 hover:bg-teal-50 transition-all group cursor-pointer bg-white shadow-sm">
+                <div className="border-2 border-dashed border-slate-300 rounded-xl p-8 text-center hover:border-amber-500 hover:bg-amber-50 transition-all group cursor-pointer bg-white shadow-sm animate-glow">
                   <input
                     type="file"
                     accept="image/jpeg,image/png,application/pdf"
@@ -441,10 +441,10 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                       </div>
                     ) : (
                       <div>
-                        <div className="w-14 h-14 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-teal-100 transition-colors">
-                          <Upload className="h-7 w-7 text-slate-500 group-hover:text-teal-600 transition-colors" />
+                        <div className="w-14 h-14 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-amber-100 transition-colors">
+                          <Upload className="h-7 w-7 text-slate-500 group-hover:text-amber-600 transition-colors" />
                         </div>
-                        <p className="text-base font-semibold text-slate-700 group-hover:text-teal-600 transition-colors">Klik untuk upload KTP</p>
+                        <p className="text-base font-semibold text-slate-700 group-hover:text-amber-600 transition-colors">Klik untuk upload KTP</p>
                         <p className="text-sm text-slate-600 mt-1">Format: JPG, PNG, PDF (Max 5 MB)</p>
                       </div>
                     )}
@@ -463,8 +463,8 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
               <div className="space-y-4">
                 <label className={`group relative flex items-start gap-5 p-6 border-2 rounded-xl cursor-pointer transition-all ${
                   data.productType === 'ea_trading'
-                    ? 'border-teal-500 bg-gradient-to-br from-teal-50 to-emerald-50 shadow-lg shadow-teal-500/20'
-                    : 'border-slate-300 hover:border-teal-500 hover:shadow-md hover:bg-slate-50 bg-white'
+                    ? 'border-amber-500 bg-gradient-to-br from-amber-50 to-yellow-50 shadow-lg shadow-amber-500/20'
+                    : 'border-slate-300 hover:border-amber-500 hover:shadow-md hover:bg-slate-50 bg-white'
                 }`}>
                   <input
                     type="radio"
@@ -472,14 +472,14 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                     value="ea_trading"
                     checked={data.productType === 'ea_trading'}
                     onChange={(e) => handleInputChange('productType', e.target.value)}
-                    className="mt-1.5 w-5 h-5 text-teal-600 border-slate-400 focus:ring-teal-500 cursor-pointer"
+                    className="mt-1.5 w-5 h-5 text-amber-600 border-slate-400 focus:ring-amber-500 cursor-pointer"
                   />
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
                       <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                        data.productType === 'ea_trading' ? 'bg-teal-500' : 'bg-slate-200 group-hover:bg-teal-100'
+                        data.productType === 'ea_trading' ? 'bg-amber-500' : 'bg-slate-200 group-hover:bg-amber-100'
                       } transition-colors`}>
-                        <Shield className={`h-5 w-5 ${data.productType === 'ea_trading' ? 'text-white' : 'text-slate-600 group-hover:text-teal-600'}`} />
+                        <Shield className={`h-5 w-5 ${data.productType === 'ea_trading' ? 'text-white' : 'text-slate-600 group-hover:text-amber-600'}`} />
                       </div>
                       <p className="font-bold text-lg text-slate-900">EA Trading</p>
                     </div>
@@ -489,8 +489,8 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
 
                 <label className={`group relative flex items-start gap-5 p-6 border-2 rounded-xl cursor-pointer transition-all ${
                   data.productType === 'bimbel_prop'
-                    ? 'border-teal-500 bg-gradient-to-br from-teal-50 to-emerald-50 shadow-lg shadow-teal-500/20'
-                    : 'border-slate-300 hover:border-teal-500 hover:shadow-md hover:bg-slate-50 bg-white'
+                    ? 'border-amber-500 bg-gradient-to-br from-amber-50 to-yellow-50 shadow-lg shadow-amber-500/20'
+                    : 'border-slate-300 hover:border-amber-500 hover:shadow-md hover:bg-slate-50 bg-white'
                 }`}>
                   <input
                     type="radio"
@@ -498,14 +498,14 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                     value="bimbel_prop"
                     checked={data.productType === 'bimbel_prop'}
                     onChange={(e) => handleInputChange('productType', e.target.value)}
-                    className="mt-1.5 w-5 h-5 text-teal-600 border-slate-400 focus:ring-teal-500 cursor-pointer"
+                    className="mt-1.5 w-5 h-5 text-amber-600 border-slate-400 focus:ring-amber-500 cursor-pointer"
                   />
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
                       <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                        data.productType === 'bimbel_prop' ? 'bg-teal-500' : 'bg-slate-200 group-hover:bg-teal-100'
+                        data.productType === 'bimbel_prop' ? 'bg-amber-500' : 'bg-slate-200 group-hover:bg-amber-100'
                       } transition-colors`}>
-                        <Shield className={`h-5 w-5 ${data.productType === 'bimbel_prop' ? 'text-white' : 'text-slate-600 group-hover:text-teal-600'}`} />
+                        <Shield className={`h-5 w-5 ${data.productType === 'bimbel_prop' ? 'text-white' : 'text-slate-600 group-hover:text-amber-600'}`} />
                       </div>
                       <p className="font-bold text-lg text-slate-900">Kelas Bimbel + Prop Funds</p>
                     </div>
@@ -553,7 +553,7 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                     <select
                       value={data.eaType}
                       onChange={(e) => handleInputChange('eaType', e.target.value)}
-                      className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all shadow-sm"
+                      className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all shadow-sm"
                     >
                       <option value="">Pilih Jenis EA</option>
                       <option value="gold">Gold EA</option>
@@ -568,7 +568,7 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                     <select
                       value={data.riskProfile}
                       onChange={(e) => handleInputChange('riskProfile', e.target.value)}
-                      className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all shadow-sm"
+                      className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all shadow-sm"
                     >
                       <option value="">Pilih Risk Profile</option>
                       <option value="aggressive">Aggressive (Resiko Sangat Tinggi)</option>
@@ -584,7 +584,7 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                     <select
                       value={data.maxDrawdown}
                       onChange={(e) => handleInputChange('maxDrawdown', e.target.value)}
-                      className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all shadow-sm"
+                      className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all shadow-sm"
                     >
                       <option value="">Pilih Max Drawdown</option>
                       <option value="35">35%</option>
@@ -593,8 +593,8 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                     </select>
                   </div>
 
-                  <div className="flex items-center gap-2 p-4 bg-teal-50 border border-teal-200 rounded-xl">
-                    <Shield className="h-4 w-4 text-teal-600 flex-shrink-0" />
+                  <div className="flex items-center gap-2 p-4 bg-amber-50 border border-amber-200 rounded-xl">
+                    <Shield className="h-4 w-4 text-amber-600 flex-shrink-0" />
                     <p className="text-xs text-slate-700">
                       Semua konfigurasi dicatat sebagai keputusan dan preferensi klien
                     </p>
@@ -611,7 +611,7 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                     <select
                       value={data.programGoal}
                       onChange={(e) => handleInputChange('programGoal', e.target.value)}
-                      className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all shadow-sm"
+                      className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all shadow-sm"
                     >
                       <option value="">Pilih Tujuan Program</option>
                       <option value="intermediate">Intermediate</option>
@@ -631,7 +631,7 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                       value={data.vipGoal}
                       onChange={(e) => handleInputChange('vipGoal', e.target.value)}
                       rows={5}
-                      className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all placeholder:text-slate-400 shadow-sm"
+                      className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all placeholder:text-slate-400 shadow-sm"
                       placeholder="Jelaskan tujuan dan harapan Anda mengikuti VIP Membership..."
                     />
                   </div>
@@ -642,7 +642,7 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
 
           {currentStep === 4 && (
             <div className="space-y-6">
-              <div className="bg-gradient-to-br from-slate-100 to-teal-50 rounded-2xl p-6 border-2 border-slate-200 space-y-4 shadow-sm">
+              <div className="bg-gradient-to-br from-slate-100 to-amber-50 rounded-2xl p-6 border-2 border-amber-200 space-y-4 shadow-sm animate-scale-in">
                 <h4 className="font-bold text-slate-900 text-lg">Ringkasan Registrasi</h4>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
@@ -662,9 +662,9 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                     <p className="text-slate-600 text-xs mb-1">Pekerjaan</p>
                     <p className="font-semibold text-slate-900">{data.occupation} - {data.position}</p>
                   </div>
-                  <div className="md:col-span-2 bg-white rounded-lg p-3 shadow-sm border border-slate-200">
+                  <div className="md:col-span-2 bg-white rounded-lg p-3 shadow-sm border border-amber-200">
                     <p className="text-slate-600 text-xs mb-1">Produk Terpilih</p>
-                    <p className="font-bold text-teal-600">
+                    <p className="font-bold text-amber-600">
                       {data.productType === 'ea_trading' && 'EA Trading'}
                       {data.productType === 'bimbel_prop' && 'Kelas Bimbel + Prop Funds'}
                       {data.productType === 'vip_membership' && 'VIP Membership'}
@@ -700,44 +700,44 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                 </div>
               </div>
 
-              <div className="bg-gradient-to-br from-teal-50 to-emerald-50 border-2 border-teal-300 rounded-2xl p-6 space-y-5 shadow-sm">
+              <div className="bg-gradient-to-br from-amber-50 to-yellow-50 border-2 border-amber-300 rounded-2xl p-6 space-y-5 shadow-sm">
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 bg-teal-200 rounded-lg flex items-center justify-center">
-                    <Shield className="h-5 w-5 text-teal-700" />
+                  <div className="w-10 h-10 bg-amber-200 rounded-lg flex items-center justify-center">
+                    <Shield className="h-5 w-5 text-amber-700" />
                   </div>
                   <h4 className="font-bold text-slate-900 text-lg">Persetujuan Wajib</h4>
                 </div>
 
-                <label className="flex items-start gap-4 cursor-pointer group hover:bg-teal-100 p-3 rounded-lg transition-all">
+                <label className="flex items-start gap-4 cursor-pointer group hover:bg-amber-100 p-3 rounded-lg transition-all">
                   <input
                     type="checkbox"
                     checked={data.consentDataAccuracy}
                     onChange={(e) => handleInputChange('consentDataAccuracy', e.target.checked)}
-                    className="mt-0.5 w-5 h-5 text-teal-600 bg-white border-2 border-slate-400 rounded focus:ring-2 focus:ring-teal-500 cursor-pointer"
+                    className="mt-0.5 w-5 h-5 text-amber-600 bg-white border-2 border-slate-400 rounded focus:ring-2 focus:ring-amber-500 cursor-pointer"
                   />
                   <span className="text-sm text-slate-800 leading-relaxed">
                     Saya menyatakan bahwa seluruh data yang diisi adalah benar dan dapat dipertanggungjawabkan
                   </span>
                 </label>
 
-                <label className="flex items-start gap-4 cursor-pointer group hover:bg-teal-100 p-3 rounded-lg transition-all">
+                <label className="flex items-start gap-4 cursor-pointer group hover:bg-amber-100 p-3 rounded-lg transition-all">
                   <input
                     type="checkbox"
                     checked={data.consentRiskUnderstanding}
                     onChange={(e) => handleInputChange('consentRiskUnderstanding', e.target.checked)}
-                    className="mt-0.5 w-5 h-5 text-teal-600 bg-white border-2 border-slate-400 rounded focus:ring-2 focus:ring-teal-500 cursor-pointer"
+                    className="mt-0.5 w-5 h-5 text-amber-600 bg-white border-2 border-slate-400 rounded focus:ring-2 focus:ring-amber-500 cursor-pointer"
                   />
                   <span className="text-sm text-slate-800 leading-relaxed">
                     Saya memahami risiko terkait produk trading dan investasi yang saya pilih
                   </span>
                 </label>
 
-                <label className="flex items-start gap-4 cursor-pointer group hover:bg-teal-100 p-3 rounded-lg transition-all">
+                <label className="flex items-start gap-4 cursor-pointer group hover:bg-amber-100 p-3 rounded-lg transition-all">
                   <input
                     type="checkbox"
                     checked={data.consentVerificationProcess}
                     onChange={(e) => handleInputChange('consentVerificationProcess', e.target.checked)}
-                    className="mt-0.5 w-5 h-5 text-teal-600 bg-white border-2 border-slate-400 rounded focus:ring-2 focus:ring-teal-500 cursor-pointer"
+                    className="mt-0.5 w-5 h-5 text-amber-600 bg-white border-2 border-slate-400 rounded focus:ring-2 focus:ring-amber-500 cursor-pointer"
                   />
                   <span className="text-sm text-slate-800 leading-relaxed">
                     Saya bersedia mengikuti proses verifikasi lanjutan dari tim Vista
@@ -760,7 +760,7 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
               <button
                 onClick={handleNext}
                 disabled={loading}
-                className="px-8 py-3 bg-gradient-to-r from-teal-600 to-emerald-600 text-white rounded-xl font-semibold hover:from-teal-700 hover:to-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-teal-500/30 hover:shadow-xl hover:shadow-teal-500/40"
+                className="px-8 py-3 bg-gradient-to-r from-amber-600 to-yellow-600 text-white rounded-xl font-semibold hover:from-amber-700 hover:to-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-amber-500/30 hover:shadow-xl hover:shadow-amber-500/40 animate-glow"
               >
                 Lanjutkan
               </button>
@@ -768,7 +768,7 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
               <button
                 onClick={handleSubmit}
                 disabled={loading}
-                className="px-10 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-xl font-bold hover:from-emerald-700 hover:to-teal-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-xl shadow-emerald-500/40 hover:shadow-2xl hover:shadow-emerald-500/50 text-lg"
+                className="px-10 py-3 bg-gradient-to-r from-amber-600 to-yellow-600 text-white rounded-xl font-bold hover:from-amber-700 hover:to-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-xl shadow-amber-500/40 hover:shadow-2xl hover:shadow-amber-500/50 text-lg animate-glow"
               >
                 {loading ? 'Memproses...' : 'Submit Registration'}
               </button>
