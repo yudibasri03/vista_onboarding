@@ -1,0 +1,9 @@
+node_modules
+.env
+.env.local
+dist
+supabase/migrations
+DATABASE_SETUP.md
+SUPER_ADMIN_SETUP.md
+combined_migration.sql
+apply-migrations.js
