@@ -261,7 +261,7 @@ export function AdminDashboard() {
           <div className="flex justify-between items-center">
             <div>
               <img
-                src="/vista-logo_white.png"
+                src="/Vista-Logo_White.png"
                 alt="Vista Admin Portal"
                 className="h-12 w-auto mb-2"
               />
