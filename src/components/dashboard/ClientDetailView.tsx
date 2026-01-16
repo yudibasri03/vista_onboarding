@@ -241,6 +241,17 @@ export function ClientDetailView({ clientId, onClose, onUpdate }: ClientDetailVi
     }
   };
 
+  const getEATypeLabel = () => {
+    if (!client.product_config?.ea_type) return '-';
+    
+    switch (client.product_config.ea_type) {
+      case 'gold_rh': return 'Gold RH+';
+      case 'gold_breakout': return 'Gold Breakout System';
+      case 'forex': return 'Forex';
+      default: return client.product_config.ea_type;
+    }
+  };
+
   const getRiskLabel = () => {
     switch (client.risk_profile) {
       case 'aggressive': return 'Aggressive (Resiko Sangat Tinggi)';
@@ -432,9 +443,9 @@ export function ClientDetailView({ clientId, onClose, onUpdate }: ClientDetailVi
                   {client.product_type === 'ea_trading' && (
                     <>
                       <div>
-                        <p className="text-sm text-gray-600">Jenis EA</p>
+                        <p className="text-sm text-gray-600">Jenis Signal Provider</p>
                         <p className="font-medium text-gray-900">
-                          {client.product_config?.ea_type === 'gold' ? 'Gold EA' : 'Forex EA'}
+                          {getEATypeLabel()}
                         </p>
                       </div>
                       <div>
