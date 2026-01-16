@@ -234,7 +234,7 @@ export function ClientDetailView({ clientId, onClose, onUpdate }: ClientDetailVi
 
   const getProductLabel = () => {
     switch (client.product_type) {
-      case 'ea_trading': return 'EA Trading';
+      case 'ea_trading': return 'Algo Signal Provider';
       case 'bimbel_prop': return 'Kelas Bimbel + Prop Funds';
       case 'vip_membership': return 'VIP Membership';
       default: return '-';
