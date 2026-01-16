@@ -249,7 +249,7 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
         <div className="text-center mb-10">
           <div className="inline-flex items-center justify-center mb-6 h-16">
             <img 
-              src="/Vista-logo_white.png" 
+              src="/Vista-Logo_White.png" 
               alt="Vista Logo" 
               className="h-full w-auto object-contain"
               onError={(e) => {
