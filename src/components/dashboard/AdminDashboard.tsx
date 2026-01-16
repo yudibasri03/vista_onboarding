@@ -149,7 +149,7 @@ export function AdminDashboard() {
   const exportToCSV = () => {
     const getProductLabel = (type: string | null) => {
       switch (type) {
-        case 'ea_trading': return 'EA Trading';
+        case 'ea_trading': return 'Algo Signal Provider';
         case 'bimbel_prop': return 'Bimbel + Prop';
         case 'vip_membership': return 'VIP Member';
         default: return '-';
@@ -424,7 +424,7 @@ export function AdminDashboard() {
                   filteredClients.map((client) => {
                     const getProductLabel = () => {
                       switch (client.product_type) {
-                        case 'ea_trading': return 'EA Trading';
+                        case 'ea_trading': return 'Algo Signal Provider';
                         case 'bimbel_prop': return 'Bimbel + Prop';
                         case 'vip_membership': return 'VIP Member';
                         default: return '-';
