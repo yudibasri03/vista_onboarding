@@ -483,7 +483,7 @@ return (
                       } transition-colors`}>
                         <Shield className={`h-5 w-5 ${data.productType === 'ea_trading' ? 'text-white' : 'text-slate-600 group-hover:text-teal-600'}`} />
                       </div>
-                      <p className="font-bold text-lg text-slate-900">EA Trading</p>
+                      <p className="font-bold text-lg text-slate-900">Algo Signal Provider</p>
                     </div>
                     <p className="text-sm text-slate-700 leading-relaxed">Automated trading dengan Expert Advisor untuk eksekusi strategi otomatis dan optimal</p>
                   </div>
