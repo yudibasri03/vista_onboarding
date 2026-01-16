@@ -235,7 +235,9 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
       }
     } catch (err: any) {
       console.error('Error submitting registration:', err);
-      setError('Terjadi kesalahan saat submit. Silakan coba lagi.');
+      const errorMessage = err?.message || 'Terjadi kesalahan saat submit. Silakan coba lagi.';
+      const errorDetails = err?.details || '';
+      setError(`${errorMessage}${errorDetails ? ` (${errorDetails})` : ''}`);
     } finally {
       setLoading(false);
     }
@@ -245,12 +247,17 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-teal-900 py-12">
       <div className="max-w-5xl mx-auto px-4">
         <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center mb-6">
-            <img
-              src="/vista-logo_white.png"
-              alt="Vista Penasihat Berjangka"
-              className="h-16 w-auto"
-            />
+          <div className="inline-flex items-center justify-center mb-6 text-white">
+            <svg className="w-16 h-16" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="64" height="64" rx="12" fill="url(#gradient)" />
+              <text x="32" y="42" fontSize="28" fontWeight="bold" textAnchor="middle" fill="white" fontFamily="sans-serif">V</text>
+              <defs>
+                <linearGradient id="gradient" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stopColor="#0d9488" />
+                  <stop offset="100%" stopColor="#059669" />
+                </linearGradient>
+              </defs>
+            </svg>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white via-teal-100 to-emerald-100">
             Client Onboarding Portal
