@@ -485,7 +485,7 @@ return (
                       </div>
                       <p className="font-bold text-lg text-slate-900">Algo Signal Provider</p>
                     </div>
-                    <p className="text-sm text-slate-700 leading-relaxed">Automated trading dengan Expert Advisor untuk eksekusi strategi otomatis dan optimal</p>
+                    <p className="text-sm text-slate-700 leading-relaxed">Automated trading dengan signal provider untuk eksekusi strategi otomatis dan optimal</p>
                   </div>
                 </label>
 
@@ -557,9 +557,10 @@ return (
                       onChange={(e) => handleInputChange('eaType', e.target.value)}
                       className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all shadow-sm"
                     >
-                      <option value="">Pilih Jenis EA</option>
-                      <option value="gold">Gold EA</option>
-                      <option value="forex">Forex EA</option>
+                      <option value="">Pilih Signal Provider</option>
+                      <option value="gold">Gold RH+</option>
+                      <option value="goldbreak">Gold Breakout System</option>
+                      <option value="forex">Forex</option>
                     </select>
                   </div>
 
