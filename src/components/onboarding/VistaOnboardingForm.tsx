@@ -251,7 +251,7 @@ return (
             <img 
               src="/Vista-Logo_White.png" 
               alt="Vista Logo" 
-              className="w-16 h-16"
+              className="h-16 object-contain"
             />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white via-teal-100 to-emerald-100">
