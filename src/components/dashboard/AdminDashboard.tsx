@@ -27,7 +27,7 @@ interface Client {
   email: string;
   phone: string;
   business_type: string;
-  product_type: 'ea_trading' | 'bimbel_prop' | 'vip_membership' | null;
+  product_type: 'ea_trading' | 'bimbel_prop' | 'bimbel_only' | 'vip_membership' | 'vip_plus_membership' | null;
   product_config: any;
   risk_profile: 'aggressive' | 'moderate' | 'conservative' | null;
   status: string;
@@ -150,8 +150,10 @@ export function AdminDashboard() {
     const getProductLabel = (type: string | null) => {
       switch (type) {
         case 'ea_trading': return 'Algo Signal Provider';
-        case 'bimbel_prop': return 'Bimbel + Prop';
-        case 'vip_membership': return 'VIP Member';
+        case 'bimbel_prop': return 'Kelas Bimbel + Propfunds';
+        case 'bimbel_only': return 'Kelas Bimbel';
+        case 'vip_membership': return 'VIP Membership';
+        case 'vip_plus_membership': return 'VIP+ Membership';
         default: return '-';
       }
     };
@@ -167,7 +169,12 @@ export function AdminDashboard() {
 
     const getEAType = (client: Client) => {
       if (client.product_type === 'ea_trading' && client.product_config?.ea_type) {
-        return client.product_config.ea_type === 'gold' ? 'Gold EA' : 'Forex EA';
+        switch (client.product_config.ea_type) {
+          case 'gold_rh': return 'Gold RH+';
+          case 'gold_breakout': return 'Gold Breakout System';
+          case 'forex': return 'Forex';
+          default: return client.product_config.ea_type;
+        }
       }
       return '-';
     };
@@ -180,14 +187,20 @@ export function AdminDashboard() {
     };
 
     const getProgramGoal = (client: Client) => {
-      if (client.product_type === 'bimbel_prop' && client.product_config?.program_goal) {
-        return client.product_config.program_goal === 'intermediate' ? 'Intermediate' : 'Advance';
+      if ((client.product_type === 'bimbel_prop' || client.product_type === 'bimbel_only') && client.product_config?.program_goal) {
+        switch (client.product_config.program_goal) {
+          case 'basic': return 'Kelas Basic';
+          case 'intermediate': return 'Kelas Intermediate';
+          case 'advance': return 'Kelas Advance';
+          case 'private_elite': return 'Kelas Private Elite (Program Sertifikasi Profesi)';
+          default: return client.product_config.program_goal;
+        }
       }
       return '-';
     };
 
     const getVIPGoal = (client: Client) => {
-      if (client.product_type === 'vip_membership' && client.product_config?.vip_goal) {
+      if ((client.product_type === 'vip_membership' || client.product_type === 'vip_plus_membership') && client.product_config?.vip_goal) {
         return client.product_config.vip_goal;
       }
       return '-';
@@ -200,7 +213,7 @@ export function AdminDashboard() {
       'Email',
       'Phone',
       'Product Type',
-      'Jenis EA',
+      'Jenis Signal Provider',
       'Risk Profile',
       'Maximum Drawdown',
       'Program Goal',
@@ -257,241 +270,243 @@ export function AdminDashboard() {
 
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
         <header className="bg-slate-800/80 backdrop-blur-sm border-b border-teal-500/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
-          <div className="flex justify-between items-center">
-            <div>
-              <img
-                src="/Vista-Logo_White.png"
-                alt="Vista Admin Portal"
-                className="h-12 w-auto mb-2"
-              />
-              <p className="text-slate-300 text-sm mt-1.5 font-medium">Client Management & Onboarding System</p>
-            </div>
-            <button
-              onClick={signOut}
-              className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-slate-700 to-slate-600 hover:from-slate-600 hover:to-slate-500 text-white rounded-xl transition-all font-semibold shadow-lg"
-            >
-              <LogOut className="h-4 w-4" />
-              Logout
-            </button>
-          </div>
-        </div>
-      </header>
-
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold text-white mb-2">Dashboard Overview</h2>
-          <p className="text-slate-300 text-lg">Monitoring dan manajemen client onboarding</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-10">
-          <div className="bg-gradient-to-br from-slate-800 to-slate-700 rounded-2xl p-6 border border-teal-500/30 shadow-lg hover:shadow-teal-500/20 transition-shadow">
-            <div className="flex items-center justify-between">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+            <div className="flex justify-between items-center">
               <div>
-                <p className="text-slate-300 text-sm font-medium">Total Submissions</p>
-                <p className="text-4xl font-bold text-white mt-2">{stats.total}</p>
-              </div>
-              <div className="w-12 h-12 bg-teal-500/20 rounded-xl flex items-center justify-center">
-                <Users className="h-7 w-7 text-teal-400" />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-br from-slate-800 to-slate-700 rounded-2xl p-6 border border-emerald-500/30 shadow-lg hover:shadow-emerald-500/20 transition-shadow">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-slate-300 text-sm font-medium">Today</p>
-                <p className="text-4xl font-bold text-white mt-2">{stats.today}</p>
-              </div>
-              <div className="w-12 h-12 bg-emerald-500/20 rounded-xl flex items-center justify-center">
-                <Calendar className="h-7 w-7 text-emerald-400" />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-br from-slate-800 to-slate-700 rounded-2xl p-6 border border-amber-500/30 shadow-lg hover:shadow-amber-500/20 transition-shadow">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-slate-300 text-sm font-medium">Pending Review</p>
-                <p className="text-4xl font-bold text-white mt-2">{stats.pending}</p>
-              </div>
-              <div className="w-12 h-12 bg-amber-500/20 rounded-xl flex items-center justify-center">
-                <Clock className="h-7 w-7 text-amber-400" />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-br from-slate-800 to-slate-700 rounded-2xl p-6 border border-emerald-500/30 shadow-lg hover:shadow-emerald-500/20 transition-shadow">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-slate-300 text-sm font-medium">Approved</p>
-                <p className="text-4xl font-bold text-white mt-2">{stats.approved}</p>
-              </div>
-              <div className="w-12 h-12 bg-emerald-500/20 rounded-xl flex items-center justify-center">
-                <CheckCircle2 className="h-7 w-7 text-emerald-400" />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-br from-slate-800 to-slate-700 rounded-2xl p-6 border border-red-500/30 shadow-lg hover:shadow-red-500/20 transition-shadow">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-slate-300 text-sm font-medium">Rejected</p>
-                <p className="text-4xl font-bold text-white mt-2">{stats.rejected}</p>
-              </div>
-              <div className="w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center">
-                <XCircle className="h-7 w-7 text-red-400" />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden">
-          <div className="p-6 border-b border-slate-700">
-            <div className="flex flex-col sm:flex-row gap-4 items-end">
-              <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
-                <input
-                  type="text"
-                  placeholder="Search clients..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                <img
+                  src="/Vista-Logo_White.png"
+                  alt="Vista Admin Portal"
+                  className="h-12 w-auto mb-2"
                 />
+                <p className="text-slate-300 text-sm mt-1.5 font-medium">Client Management & Onboarding System</p>
               </div>
+              <button
+                onClick={signOut}
+                className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-slate-700 to-slate-600 hover:from-slate-600 hover:to-slate-500 text-white rounded-xl transition-all font-semibold shadow-lg"
+              >
+                <LogOut className="h-4 w-4" />
+                Logout
+              </button>
+            </div>
+          </div>
+        </header>
 
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2">
-                  <Filter className="h-5 w-5 text-slate-400" />
-                  <select
-                    value={statusFilter}
-                    onChange={(e) => setStatusFilter(e.target.value)}
-                    className="px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                  >
-                    <option value="all">All Status</option>
-                    <option value="pending">Pending</option>
-                    <option value="verified">Verified</option>
-                    <option value="approved">Approved</option>
-                    <option value="active">Active</option>
-                    <option value="rejected">Rejected</option>
-                  </select>
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          <div className="mb-8">
+            <h2 className="text-3xl font-bold text-white mb-2">Dashboard Overview</h2>
+            <p className="text-slate-300 text-lg">Monitoring dan manajemen client onboarding</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-10">
+            <div className="bg-gradient-to-br from-slate-800 to-slate-700 rounded-2xl p-6 border border-teal-500/30 shadow-lg hover:shadow-teal-500/20 transition-shadow">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-slate-300 text-sm font-medium">Total Submissions</p>
+                  <p className="text-4xl font-bold text-white mt-2">{stats.total}</p>
+                </div>
+                <div className="w-12 h-12 bg-teal-500/20 rounded-xl flex items-center justify-center">
+                  <Users className="h-7 w-7 text-teal-400" />
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-slate-800 to-slate-700 rounded-2xl p-6 border border-emerald-500/30 shadow-lg hover:shadow-emerald-500/20 transition-shadow">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-slate-300 text-sm font-medium">Today</p>
+                  <p className="text-4xl font-bold text-white mt-2">{stats.today}</p>
+                </div>
+                <div className="w-12 h-12 bg-emerald-500/20 rounded-xl flex items-center justify-center">
+                  <Calendar className="h-7 w-7 text-emerald-400" />
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-slate-800 to-slate-700 rounded-2xl p-6 border border-amber-500/30 shadow-lg hover:shadow-amber-500/20 transition-shadow">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-slate-300 text-sm font-medium">Pending Review</p>
+                  <p className="text-4xl font-bold text-white mt-2">{stats.pending}</p>
+                </div>
+                <div className="w-12 h-12 bg-amber-500/20 rounded-xl flex items-center justify-center">
+                  <Clock className="h-7 w-7 text-amber-400" />
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-slate-800 to-slate-700 rounded-2xl p-6 border border-emerald-500/30 shadow-lg hover:shadow-emerald-500/20 transition-shadow">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-slate-300 text-sm font-medium">Approved</p>
+                  <p className="text-4xl font-bold text-white mt-2">{stats.approved}</p>
+                </div>
+                <div className="w-12 h-12 bg-emerald-500/20 rounded-xl flex items-center justify-center">
+                  <CheckCircle2 className="h-7 w-7 text-emerald-400" />
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-slate-800 to-slate-700 rounded-2xl p-6 border border-red-500/30 shadow-lg hover:shadow-red-500/20 transition-shadow">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-slate-300 text-sm font-medium">Rejected</p>
+                  <p className="text-4xl font-bold text-white mt-2">{stats.rejected}</p>
+                </div>
+                <div className="w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center">
+                  <XCircle className="h-7 w-7 text-red-400" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden">
+            <div className="p-6 border-b border-slate-700">
+              <div className="flex flex-col sm:flex-row gap-4 items-end">
+                <div className="flex-1 relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
+                  <input
+                    type="text"
+                    placeholder="Search clients..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  />
                 </div>
 
-                <button
-                  onClick={exportToCSV}
-                  disabled={filteredClients.length === 0}
-                  className="flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 disabled:from-slate-600 disabled:to-slate-600 disabled:cursor-not-allowed text-white rounded-lg transition-all font-semibold shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:shadow-emerald-500/40"
-                >
-                  <Download className="h-4 w-4" />
-                  Export CSV
-                </button>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2">
+                    <Filter className="h-5 w-5 text-slate-400" />
+                    <select
+                      value={statusFilter}
+                      onChange={(e) => setStatusFilter(e.target.value)}
+                      className="px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    >
+                      <option value="all">All Status</option>
+                      <option value="pending">Pending</option>
+                      <option value="verified">Verified</option>
+                      <option value="approved">Approved</option>
+                      <option value="active">Active</option>
+                      <option value="rejected">Rejected</option>
+                    </select>
+                  </div>
+
+                  <button
+                    onClick={exportToCSV}
+                    disabled={filteredClients.length === 0}
+                    className="flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 disabled:from-slate-600 disabled:to-slate-600 disabled:cursor-not-allowed text-white rounded-lg transition-all font-semibold shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:shadow-emerald-500/40"
+                  >
+                    <Download className="h-4 w-4" />
+                    Export CSV
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-slate-700/50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
-                    Name
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
-                    Product
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
-                    Risk Profile
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
-                    Contact
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-700">
-                {filteredClients.length === 0 ? (
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-slate-700/50">
                   <tr>
-                    <td colSpan={6} className="px-6 py-8 text-center text-slate-400">
-                      No clients found
-                    </td>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
+                      Name
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
+                      Product
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
+                      Risk Profile
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
+                      Contact
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
+                      Actions
+                    </th>
                   </tr>
-                ) : (
-                  filteredClients.map((client) => {
-                    const getProductLabel = () => {
-                      switch (client.product_type) {
-                        case 'ea_trading': return 'Algo Signal Provider';
-                        case 'bimbel_prop': return 'Bimbel + Prop';
-                        case 'vip_membership': return 'VIP Member';
-                        default: return '-';
-                      }
-                    };
+                </thead>
+                <tbody className="divide-y divide-slate-700">
+                  {filteredClients.length === 0 ? (
+                    <tr>
+                      <td colSpan={6} className="px-6 py-8 text-center text-slate-400">
+                        No clients found
+                      </td>
+                    </tr>
+                  ) : (
+                    filteredClients.map((client) => {
+                      const getProductLabel = () => {
+                        switch (client.product_type) {
+                          case 'ea_trading': return 'Algo Signal Provider';
+                          case 'bimbel_prop': return 'Kelas Bimbel + Propfunds';
+                          case 'bimbel_only': return 'Kelas Bimbel';
+                          case 'vip_membership': return 'VIP Membership';
+                          case 'vip_plus_membership': return 'VIP+ Membership';
+                          default: return '-';
+                        }
+                      };
 
-                    const getRiskLabel = () => {
-                      switch (client.risk_profile) {
-                        case 'aggressive': return 'Aggressive (Resiko Sangat Tinggi)';
-                        case 'moderate': return 'Moderate (Resiko Tinggi)';
-                        case 'conservative': return 'Conservative (Resiko Sedang)';
-                        default: return '-';
-                      }
-                    };
+                      const getRiskLabel = () => {
+                        switch (client.risk_profile) {
+                          case 'aggressive': return 'Aggressive (Resiko Sangat Tinggi)';
+                          case 'moderate': return 'Moderate (Resiko Tinggi)';
+                          case 'conservative': return 'Conservative (Resiko Sedang)';
+                          default: return '-';
+                        }
+                      };
 
-                    return (
-                      <tr key={client.id} className="hover:bg-slate-700/30 transition-colors">
-                        <td className="px-6 py-4">
-                          <div>
-                            <div className="text-white font-medium">{client.full_name || client.company_name}</div>
-                            <div className="text-slate-400 text-sm">{client.email}</div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-2">
-                            <Shield className="h-4 w-4 text-blue-400" />
-                            <span className="text-slate-300 text-sm">{getProductLabel()}</span>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 text-slate-300 text-sm">
-                          {getRiskLabel()}
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="text-slate-300 text-sm">
-                            <div className="text-slate-400">{client.phone}</div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4">
-                          {getStatusBadge(client.status)}
-                        </td>
-                        <td className="px-6 py-4">
-                          <button
-                            onClick={() => setSelectedClientId(client.id)}
-                            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white rounded-lg transition-all text-sm font-semibold shadow-lg shadow-teal-500/30 hover:shadow-xl hover:shadow-teal-500/40"
-                          >
-                            <Eye className="h-4 w-4" />
-                            Review
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })
-                )}
-              </tbody>
-            </table>
+                      return (
+                        <tr key={client.id} className="hover:bg-slate-700/30 transition-colors">
+                          <td className="px-6 py-4">
+                            <div>
+                              <div className="text-white font-medium">{client.full_name || client.company_name}</div>
+                              <div className="text-slate-400 text-sm">{client.email}</div>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4">
+                            <div className="flex items-center gap-2">
+                              <Shield className="h-4 w-4 text-blue-400" />
+                              <span className="text-slate-300 text-sm">{getProductLabel()}</span>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 text-slate-300 text-sm">
+                            {getRiskLabel()}
+                          </td>
+                          <td className="px-6 py-4">
+                            <div className="text-slate-300 text-sm">
+                              <div className="text-slate-400">{client.phone}</div>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4">
+                            {getStatusBadge(client.status)}
+                          </td>
+                          <td className="px-6 py-4">
+                            <button
+                              onClick={() => setSelectedClientId(client.id)}
+                              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white rounded-lg transition-all text-sm font-semibold shadow-lg shadow-teal-500/30 hover:shadow-xl hover:shadow-teal-500/40"
+                            >
+                              <Eye className="h-4 w-4" />
+                              Review
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-      </main>
+        </main>
 
-      {selectedClientId && (
-        <ClientDetailView
-          clientId={selectedClientId}
-          onClose={() => setSelectedClientId(null)}
-          onUpdate={loadClients}
-        />
-      )}
-    </div>
+        {selectedClientId && (
+          <ClientDetailView
+            clientId={selectedClientId}
+            onClose={() => setSelectedClientId(null)}
+            onUpdate={loadClients}
+          />
+        )}
+      </div>
     </>
   );
 }
