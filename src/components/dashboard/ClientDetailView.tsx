@@ -20,7 +20,7 @@ interface ClientData {
   position: string;
   address: string;
   ktp_url: string;
-  product_type: 'ea_trading' | 'bimbel_prop' | 'vip_membership';
+  product_type: 'ea_trading' | 'bimbel_prop' | 'bimbel_only' | 'vip_membership' | 'vip_plus_membership';
   product_config: any;
   risk_profile: 'aggressive' | 'moderate' | 'conservative' | null;
   status: string;
@@ -218,6 +218,59 @@ export function ClientDetailView({ clientId, onClose, onUpdate }: ClientDetailVi
     }
   };
 
+  const getProductLabel = () => {
+    switch (client?.product_type) {
+      case 'ea_trading': return 'Algo Signal Provider';
+      case 'bimbel_prop': return 'Kelas Bimbel + Prop Funds';
+      case 'bimbel_only': return 'Kelas Bimbel';
+      case 'vip_membership': return 'VIP Membership';
+      case 'vip_plus_membership': return 'VIP+ Membership';
+      default: return '-';
+    }
+  };
+
+  const getEATypeLabel = () => {
+    if (!client?.product_config?.ea_type) return '-';
+    
+    switch (client.product_config.ea_type) {
+      case 'gold_rh': return 'Gold RH+';
+      case 'gold_breakout': return 'Gold Breakout System';
+      case 'forex': return 'Forex';
+      default: return client.product_config.ea_type;
+    }
+  };
+
+  const getRiskLabel = () => {
+    switch (client?.risk_profile) {
+      case 'aggressive': return 'Aggressive (Resiko Sangat Tinggi)';
+      case 'moderate': return 'Moderate (Resiko Tinggi)';
+      case 'conservative': return 'Conservative (Resiko Sedang)';
+      default: return '-';
+    }
+  };
+
+  const getProgramGoalLabel = () => {
+    if (!client?.product_config?.program_goal) return '-';
+    
+    switch (client.product_config.program_goal) {
+      case 'basic': return 'Kelas Basic';
+      case 'intermediate': return 'Kelas Intermediate';
+      case 'advance': return 'Kelas Advance';
+      case 'private_elite': return 'Kelas Private Elite (Program Sertifikasi Profesi)';
+      default: return client.product_config.program_goal;
+    }
+  };
+
+  const getStatusBadge = (status: string) => {
+    const styles = {
+      pending: 'bg-yellow-100 text-yellow-800',
+      approved: 'bg-green-100 text-green-800',
+      rejected: 'bg-red-100 text-red-800',
+      in_review: 'bg-blue-100 text-blue-800',
+    };
+    return styles[status as keyof typeof styles] || 'bg-gray-100 text-gray-800';
+  };
+
   if (loading) {
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -231,45 +284,6 @@ export function ClientDetailView({ clientId, onClose, onUpdate }: ClientDetailVi
   if (!client) {
     return null;
   }
-
-  const getProductLabel = () => {
-    switch (client.product_type) {
-      case 'ea_trading': return 'Algo Signal Provider';
-      case 'bimbel_prop': return 'Kelas Bimbel + Prop Funds';
-      case 'vip_membership': return 'VIP Membership';
-      default: return '-';
-    }
-  };
-
-  const getEATypeLabel = () => {
-    if (!client.product_config?.ea_type) return '-';
-    
-    switch (client.product_config.ea_type) {
-      case 'gold_rh': return 'Gold RH+';
-      case 'gold_breakout': return 'Gold Breakout System';
-      case 'forex': return 'Forex';
-      default: return client.product_config.ea_type;
-    }
-  };
-
-  const getRiskLabel = () => {
-    switch (client.risk_profile) {
-      case 'aggressive': return 'Aggressive (Resiko Sangat Tinggi)';
-      case 'moderate': return 'Moderate (Resiko Tinggi)';
-      case 'conservative': return 'Conservative (Resiko Sedang)';
-      default: return '-';
-    }
-  };
-
-  const getStatusBadge = (status: string) => {
-    const styles = {
-      pending: 'bg-yellow-100 text-yellow-800',
-      approved: 'bg-green-100 text-green-800',
-      rejected: 'bg-red-100 text-red-800',
-      in_review: 'bg-blue-100 text-blue-800',
-    };
-    return styles[status as keyof typeof styles] || 'bg-gray-100 text-gray-800';
-  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
@@ -459,14 +473,14 @@ export function ClientDetailView({ clientId, onClose, onUpdate }: ClientDetailVi
                     </>
                   )}
 
-                  {client.product_type === 'bimbel_prop' && (
+                  {(client.product_type === 'bimbel_prop' || client.product_type === 'bimbel_only') && (
                     <div>
                       <p className="text-sm text-gray-600">Tujuan Program</p>
-                      <p className="font-medium text-gray-900 capitalize">{client.product_config?.program_goal}</p>
+                      <p className="font-medium text-gray-900">{getProgramGoalLabel()}</p>
                     </div>
                   )}
 
-                  {client.product_type === 'vip_membership' && (
+                  {(client.product_type === 'vip_membership' || client.product_type === 'vip_plus_membership') && (
                     <div>
                       <p className="text-sm text-gray-600">Tujuan VIP Membership</p>
                       <p className="font-medium text-gray-900">{client.product_config?.vip_goal}</p>
