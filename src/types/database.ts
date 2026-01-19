@@ -27,8 +27,8 @@ export interface Database {
           occupation: string | null
           position: string | null
           ktp_url: string | null
-          product_type: 'ea_trading' | 'bimbel_prop' | 'vip_membership' | null
-          product_config: any
+          product_type: 'ea_trading' | 'bimbel_prop' | 'bimbel_only' | 'vip_membership' | 'vip_plus_membership' | null
+          product_config: Json | null
           risk_profile: 'aggressive' | 'moderate' | 'conservative' | null
           consent_data_accuracy: boolean
           consent_risk_understanding: boolean
@@ -52,8 +52,8 @@ export interface Database {
           occupation?: string | null
           position?: string | null
           ktp_url?: string | null
-          product_type?: 'ea_trading' | 'bimbel_prop' | 'vip_membership' | null
-          product_config?: any
+          product_type?: 'ea_trading' | 'bimbel_prop' | 'bimbel_only' | 'vip_membership' | 'vip_plus_membership' | null
+          product_config?: Json | null
           risk_profile?: 'aggressive' | 'moderate' | 'conservative' | null
           consent_data_accuracy?: boolean
           consent_risk_understanding?: boolean
@@ -77,8 +77,8 @@ export interface Database {
           occupation?: string | null
           position?: string | null
           ktp_url?: string | null
-          product_type?: 'ea_trading' | 'bimbel_prop' | 'vip_membership' | null
-          product_config?: any
+          product_type?: 'ea_trading' | 'bimbel_prop' | 'bimbel_only' | 'vip_membership' | 'vip_plus_membership' | null
+          product_config?: Json | null
           risk_profile?: 'aggressive' | 'moderate' | 'conservative' | null
           consent_data_accuracy?: boolean
           consent_risk_understanding?: boolean
@@ -225,6 +225,18 @@ export interface Database {
           created_at?: string
         }
       }
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      [_ in never]: never
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
     }
   }
 }
