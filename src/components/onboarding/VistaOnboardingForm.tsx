@@ -18,7 +18,7 @@ interface OnboardingData {
   position: string;
   address: string;
   ktpFile: File | null;
-  productType: 'ea_trading' | 'bimbel_prop' | 'vip_membership' | '';
+  productType: 'ea_trading' | 'bimbel_prop' | 'bimbel_only' | 'vip_membership' | 'vip_plus_membership' | '';
   eaType: string;
   riskProfile: 'aggressive' | 'moderate' | 'conservative' | '';
   maxDrawdown: string;
@@ -111,12 +111,12 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
           setError('Lengkapi semua konfigurasi Algo Signal Provider');
           return false;
         }
-      } else if (data.productType === 'bimbel_prop') {
+      } else if (data.productType === 'bimbel_prop' || data.productType === 'bimbel_only') {
         if (!data.programGoal) {
           setError('Pilih tujuan program');
           return false;
         }
-      } else if (data.productType === 'vip_membership') {
+      } else if (data.productType === 'vip_membership' || data.productType === 'vip_plus_membership') {
         if (!data.vipGoal) {
           setError('Pilih tujuan VIP Membership');
           return false;
@@ -178,9 +178,9 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
       if (data.productType === 'ea_trading') {
         productConfig.ea_type = data.eaType;
         productConfig.max_drawdown = data.maxDrawdown;
-      } else if (data.productType === 'bimbel_prop') {
+      } else if (data.productType === 'bimbel_prop' || data.productType === 'bimbel_only') {
         productConfig.program_goal = data.programGoal;
-      } else if (data.productType === 'vip_membership') {
+      } else if (data.productType === 'vip_membership' || data.productType === 'vip_plus_membership') {
         productConfig.vip_goal = data.vipGoal;
       }
 
@@ -254,7 +254,6 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
               className="h-full w-auto object-contain"
               onError={(e) => {
                 console.error('Logo failed to load from:', e.currentTarget.src);
-                // Fallback ke text jika logo tidak load
                 e.currentTarget.style.display = 'none';
                 const logoContainer = e.currentTarget.parentElement;
                 if (logoContainer) {
@@ -522,9 +521,35 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                         } transition-colors`}>
                           <Shield className={`h-5 w-5 ${data.productType === 'bimbel_prop' ? 'text-white' : 'text-slate-600 group-hover:text-teal-600'}`} />
                         </div>
-                        <p className="font-bold text-lg text-slate-900">Kelas Bimbel + Prop Funds</p>
+                        <p className="font-bold text-lg text-slate-900">Kelas Bimbel + Propfunds</p>
                       </div>
                       <p className="text-sm text-slate-700 leading-relaxed">Program edukasi trading komprehensif dengan akses langsung ke proprietary trading funds</p>
+                    </div>
+                  </label>
+
+                  <label className={`group relative flex items-start gap-5 p-6 border-2 rounded-xl cursor-pointer transition-all ${
+                    data.productType === 'bimbel_only'
+                      ? 'border-teal-500 bg-gradient-to-br from-teal-50 to-emerald-50 shadow-lg shadow-teal-500/20'
+                      : 'border-slate-300 hover:border-teal-500 hover:shadow-md hover:bg-slate-50 bg-white'
+                  }`}>
+                    <input
+                      type="radio"
+                      name="product"
+                      value="bimbel_only"
+                      checked={data.productType === 'bimbel_only'}
+                      onChange={(e) => handleInputChange('productType', e.target.value)}
+                      className="mt-1.5 w-5 h-5 text-teal-600 border-slate-400 focus:ring-teal-500 cursor-pointer"
+                    />
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                          data.productType === 'bimbel_only' ? 'bg-teal-500' : 'bg-slate-200 group-hover:bg-teal-100'
+                        } transition-colors`}>
+                          <Shield className={`h-5 w-5 ${data.productType === 'bimbel_only' ? 'text-white' : 'text-slate-600 group-hover:text-teal-600'}`} />
+                        </div>
+                        <p className="font-bold text-lg text-slate-900">Kelas Bimbel</p>
+                      </div>
+                      <p className="text-sm text-slate-700 leading-relaxed">Program edukasi trading komprehensif mulai dari basic hingga advance</p>
                     </div>
                   </label>
 
@@ -551,6 +576,32 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                         <p className="font-bold text-lg text-slate-900">VIP Membership</p>
                       </div>
                       <p className="text-sm text-slate-700 leading-relaxed">Akses eksklusif ke seluruh layanan Vista dengan benefit dan privilege premium</p>
+                    </div>
+                  </label>
+
+                  <label className={`group relative flex items-start gap-5 p-6 border-2 rounded-xl cursor-pointer transition-all ${
+                    data.productType === 'vip_plus_membership'
+                      ? 'border-purple-500 bg-gradient-to-br from-purple-50 to-pink-50 shadow-lg shadow-purple-500/20'
+                      : 'border-slate-300 hover:border-purple-500 hover:shadow-md hover:bg-slate-50 bg-white'
+                  }`}>
+                    <input
+                      type="radio"
+                      name="product"
+                      value="vip_plus_membership"
+                      checked={data.productType === 'vip_plus_membership'}
+                      onChange={(e) => handleInputChange('productType', e.target.value)}
+                      className="mt-1.5 w-5 h-5 text-purple-600 border-slate-400 focus:ring-purple-500 cursor-pointer"
+                    />
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                          data.productType === 'vip_plus_membership' ? 'bg-gradient-to-br from-purple-500 to-pink-500' : 'bg-slate-200 group-hover:bg-purple-100'
+                        } transition-colors`}>
+                          <Shield className={`h-5 w-5 ${data.productType === 'vip_plus_membership' ? 'text-white' : 'text-slate-600 group-hover:text-purple-600'}`} />
+                        </div>
+                        <p className="font-bold text-lg text-slate-900">VIP+ Membership</p>
+                      </div>
+                      <p className="text-sm text-slate-700 leading-relaxed">Akses signal trading dan live trade rutin</p>
                     </div>
                   </label>
                 </div>
@@ -630,14 +681,37 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                         className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all shadow-sm"
                       >
                         <option value="">Pilih Tujuan Program</option>
-                        <option value="intermediate">Intermediate</option>
-                        <option value="advance">Advance</option>
+                        <option value="basic">Kelas Basic</option>
+                        <option value="intermediate">Kelas Intermediate</option>
+                        <option value="advance">Kelas Advance</option>
+                        <option value="private_elite">Kelas Private Elite (Program Sertifikasi Profesi)</option>
                       </select>
                     </div>
                   </div>
                 )}
 
-                {data.productType === 'vip_membership' && (
+                {data.productType === 'bimbel_only' && (
+                  <div className="space-y-6">
+                    <div>
+                      <label className="block text-sm font-semibold text-slate-800 mb-2">
+                        Tujuan Mengikuti Program <span className="text-red-600">*</span>
+                      </label>
+                      <select
+                        value={data.programGoal}
+                        onChange={(e) => handleInputChange('programGoal', e.target.value)}
+                        className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all shadow-sm"
+                      >
+                        <option value="">Pilih Tujuan Program</option>
+                        <option value="basic">Kelas Basic</option>
+                        <option value="intermediate">Kelas Intermediate</option>
+                        <option value="advance">Kelas Advance</option>
+                        <option value="private_elite">Kelas Private Elite (Program Sertifikasi Profesi)</option>
+                      </select>
+                    </div>
+                  </div>
+                )}
+
+                {(data.productType === 'vip_membership' || data.productType === 'vip_plus_membership') && (
                   <div className="space-y-6">
                     <div>
                       <label className="block text-sm font-semibold text-slate-800 mb-2">
@@ -682,8 +756,10 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                       <p className="text-slate-600 text-xs mb-1">Produk Terpilih</p>
                       <p className="font-bold text-teal-600">
                         {data.productType === 'ea_trading' && 'Algo Signal Provider'}
-                        {data.productType === 'bimbel_prop' && 'Kelas Bimbel + Prop Funds'}
+                        {data.productType === 'bimbel_prop' && 'Kelas Bimbel + Propfunds'}
+                        {data.productType === 'bimbel_only' && 'Kelas Bimbel'}
                         {data.productType === 'vip_membership' && 'VIP Membership'}
+                        {data.productType === 'vip_plus_membership' && 'VIP+ Membership'}
                       </p>
                     </div>
                     {data.productType === 'ea_trading' && (
@@ -709,6 +785,17 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                           <p className="font-semibold text-slate-900">{data.maxDrawdown}%</p>
                         </div>
                       </>
+                    )}
+                    {(data.productType === 'bimbel_prop' || data.productType === 'bimbel_only') && data.programGoal && (
+                      <div className="bg-white rounded-lg p-3 shadow-sm border border-slate-200">
+                        <p className="text-slate-600 text-xs mb-1">Tujuan Program</p>
+                        <p className="font-semibold text-slate-900">
+                          {data.programGoal === 'basic' && 'Kelas Basic'}
+                          {data.programGoal === 'intermediate' && 'Kelas Intermediate'}
+                          {data.programGoal === 'advance' && 'Kelas Advance'}
+                          {data.programGoal === 'private_elite' && 'Kelas Private Elite (Program Sertifikasi Profesi)'}
+                        </p>
+                      </div>
                     )}
                     <div className="bg-white rounded-lg p-3 shadow-sm border border-slate-200">
                       <p className="text-slate-600 text-xs mb-1">Status KYC</p>
