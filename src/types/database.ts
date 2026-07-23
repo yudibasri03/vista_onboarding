@@ -213,16 +213,22 @@ export interface Database {
           user_id: string
           role: 'admin' | 'client'
           created_at: string
+          must_change_password: boolean
+          last_password_change: string | null
         }
         Insert: {
           user_id: string
           role?: 'admin' | 'client'
           created_at?: string
+          must_change_password?: boolean
+          last_password_change?: string | null
         }
         Update: {
           user_id?: string
           role?: 'admin' | 'client'
           created_at?: string
+          must_change_password?: boolean
+          last_password_change?: string | null
         }
       }
     }
