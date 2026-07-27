@@ -27,7 +27,7 @@ interface Client {
   email: string;
   phone: string;
   business_type: string;
-  product_type: 'ea_trading' | 'bimbel_prop' | 'bimbel_only' | 'vip_membership' | 'vip_plus_membership' | null;
+  product_type: 'ea_trading' | 'bimbel_only' | 'vip_membership' | 'vip_plus_membership' | null;
   product_config: any;
   risk_profile: 'aggressive' | 'moderate' | 'conservative' | null;
   status: string;
@@ -150,7 +150,6 @@ export function AdminDashboard() {
     const getProductLabel = (type: string | null) => {
       switch (type) {
         case 'ea_trading': return 'Algo Signal Provider';
-        case 'bimbel_prop': return 'Kelas Bimbel + Propfunds';
         case 'bimbel_only': return 'Kelas Bimbel';
         case 'vip_membership': return 'VIP Membership';
         case 'vip_plus_membership': return 'VIP+ Membership';
@@ -171,8 +170,8 @@ export function AdminDashboard() {
       if (client.product_type === 'ea_trading' && client.product_config?.ea_type) {
         switch (client.product_config.ea_type) {
           case 'gold_rh': return 'Gold RH+';
-          case 'gold_breakout': return 'Gold Breakout System';
-          case 'forex': return 'Forex';
+          case 'gold_bebek_pintar': return 'Gold Bebek Pintar';
+          case 'forex_quant_stack': return 'SMC Intelligence Forex Quant Stack';
           default: return client.product_config.ea_type;
         }
       }
@@ -187,7 +186,7 @@ export function AdminDashboard() {
     };
 
     const getProgramGoal = (client: Client) => {
-      if ((client.product_type === 'bimbel_prop' || client.product_type === 'bimbel_only') && client.product_config?.program_goal) {
+      if (client.product_type === 'bimbel_only' && client.product_config?.program_goal) {
         switch (client.product_config.program_goal) {
           case 'basic': return 'Kelas Basic';
           case 'intermediate': return 'Kelas Intermediate';
@@ -438,7 +437,6 @@ export function AdminDashboard() {
                       const getProductLabel = () => {
                         switch (client.product_type) {
                           case 'ea_trading': return 'Algo Signal Provider';
-                          case 'bimbel_prop': return 'Kelas Bimbel + Propfunds';
                           case 'bimbel_only': return 'Kelas Bimbel';
                           case 'vip_membership': return 'VIP Membership';
                           case 'vip_plus_membership': return 'VIP+ Membership';

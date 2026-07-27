@@ -18,7 +18,7 @@ interface OnboardingData {
   position: string;
   address: string;
   ktpFile: File | null;
-  productType: 'ea_trading' | 'bimbel_prop' | 'bimbel_only' | 'vip_membership' | 'vip_plus_membership' | '';
+  productType: 'ea_trading' | 'bimbel_only' | 'vip_membership' | 'vip_plus_membership' | '';
   eaType: string;
   riskProfile: 'aggressive' | 'moderate' | 'conservative' | '';
   maxDrawdown: string;
@@ -111,7 +111,7 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
           setError('Lengkapi semua konfigurasi Algo Signal Provider');
           return false;
         }
-      } else if (data.productType === 'bimbel_prop' || data.productType === 'bimbel_only') {
+      } else if (data.productType === 'bimbel_only') {
         if (!data.programGoal) {
           setError('Pilih tujuan program');
           return false;
@@ -178,7 +178,7 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
       if (data.productType === 'ea_trading') {
         productConfig.ea_type = data.eaType;
         productConfig.max_drawdown = data.maxDrawdown;
-      } else if (data.productType === 'bimbel_prop' || data.productType === 'bimbel_only') {
+      } else if (data.productType === 'bimbel_only') {
         productConfig.program_goal = data.programGoal;
       } else if (data.productType === 'vip_membership' || data.productType === 'vip_plus_membership') {
         productConfig.vip_goal = data.vipGoal;
@@ -502,32 +502,6 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                   </label>
 
                   <label className={`group relative flex items-start gap-5 p-6 border-2 rounded-xl cursor-pointer transition-all ${
-                    data.productType === 'bimbel_prop'
-                      ? 'border-teal-500 bg-gradient-to-br from-teal-50 to-emerald-50 shadow-lg shadow-teal-500/20'
-                      : 'border-slate-300 hover:border-teal-500 hover:shadow-md hover:bg-slate-50 bg-white'
-                  }`}>
-                    <input
-                      type="radio"
-                      name="product"
-                      value="bimbel_prop"
-                      checked={data.productType === 'bimbel_prop'}
-                      onChange={(e) => handleInputChange('productType', e.target.value)}
-                      className="mt-1.5 w-5 h-5 text-teal-600 border-slate-400 focus:ring-teal-500 cursor-pointer"
-                    />
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                          data.productType === 'bimbel_prop' ? 'bg-teal-500' : 'bg-slate-200 group-hover:bg-teal-100'
-                        } transition-colors`}>
-                          <Shield className={`h-5 w-5 ${data.productType === 'bimbel_prop' ? 'text-white' : 'text-slate-600 group-hover:text-teal-600'}`} />
-                        </div>
-                        <p className="font-bold text-lg text-slate-900">Kelas Bimbel + Propfunds</p>
-                      </div>
-                      <p className="text-sm text-slate-700 leading-relaxed">Program edukasi trading komprehensif dengan akses langsung ke proprietary trading funds</p>
-                    </div>
-                  </label>
-
-                  <label className={`group relative flex items-start gap-5 p-6 border-2 rounded-xl cursor-pointer transition-all ${
                     data.productType === 'bimbel_only'
                       ? 'border-teal-500 bg-gradient-to-br from-teal-50 to-emerald-50 shadow-lg shadow-teal-500/20'
                       : 'border-slate-300 hover:border-teal-500 hover:shadow-md hover:bg-slate-50 bg-white'
@@ -623,8 +597,8 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                       >
                         <option value="">Pilih Signal Provider</option>
                         <option value="gold_rh">Gold RH+</option>
-                        <option value="gold_breakout">Gold Breakout System</option>
-                        <option value="forex">Forex</option>
+                        <option value="gold_bebek_pintar">Gold Bebek Pintar</option>
+                        <option value="forex_quant_stack">SMC Intelligence Forex Quant Stack</option>
                       </select>
                     </div>
 
@@ -665,27 +639,6 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                       <p className="text-xs text-slate-700">
                         Semua konfigurasi dicatat sebagai keputusan dan preferensi klien
                       </p>
-                    </div>
-                  </div>
-                )}
-
-                {data.productType === 'bimbel_prop' && (
-                  <div className="space-y-6">
-                    <div>
-                      <label className="block text-sm font-semibold text-slate-800 mb-2">
-                        Tujuan Mengikuti Program <span className="text-red-600">*</span>
-                      </label>
-                      <select
-                        value={data.programGoal}
-                        onChange={(e) => handleInputChange('programGoal', e.target.value)}
-                        className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all shadow-sm"
-                      >
-                        <option value="">Pilih Tujuan Program</option>
-                        <option value="basic">Kelas Basic</option>
-                        <option value="intermediate">Kelas Intermediate</option>
-                        <option value="advance">Kelas Advance</option>
-                        <option value="private_elite">Kelas Private Elite (Program Sertifikasi Profesi)</option>
-                      </select>
                     </div>
                   </div>
                 )}
@@ -756,7 +709,6 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                       <p className="text-slate-600 text-xs mb-1">Produk Terpilih</p>
                       <p className="font-bold text-teal-600">
                         {data.productType === 'ea_trading' && 'Algo Signal Provider'}
-                        {data.productType === 'bimbel_prop' && 'Kelas Bimbel + Propfunds'}
                         {data.productType === 'bimbel_only' && 'Kelas Bimbel'}
                         {data.productType === 'vip_membership' && 'VIP Membership'}
                         {data.productType === 'vip_plus_membership' && 'VIP+ Membership'}
@@ -768,8 +720,8 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                           <p className="text-slate-600 text-xs mb-1">Jenis Signal Provider</p>
                           <p className="font-semibold text-slate-900">
                             {data.eaType === 'gold_rh' && 'Gold RH+'}
-                            {data.eaType === 'gold_breakout' && 'Gold Breakout System'}
-                            {data.eaType === 'forex' && 'Forex'}
+                            {data.eaType === 'gold_bebek_pintar' && 'Gold Bebek Pintar'}
+                            {data.eaType === 'forex_quant_stack' && 'SMC Intelligence Forex Quant Stack'}
                           </p>
                         </div>
                         <div className="bg-white rounded-lg p-3 shadow-sm border border-slate-200">
@@ -786,7 +738,7 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                         </div>
                       </>
                     )}
-                    {(data.productType === 'bimbel_prop' || data.productType === 'bimbel_only') && data.programGoal && (
+                    {data.productType === 'bimbel_only' && data.programGoal && (
                       <div className="bg-white rounded-lg p-3 shadow-sm border border-slate-200">
                         <p className="text-slate-600 text-xs mb-1">Tujuan Program</p>
                         <p className="font-semibold text-slate-900">

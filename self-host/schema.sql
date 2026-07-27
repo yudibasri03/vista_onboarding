@@ -2245,3 +2245,23 @@ BEGIN
   END IF;
 END $$;
 
+
+-- =====================================================================
+-- KOREKSI 2026-07-27 — daftar produk aktif
+--
+-- Migration lama (20251213063312) hanya mendaftarkan 3 produk, sementara
+-- frontend menawarkan 5. Akibatnya 'bimbel_only' dan 'vip_plus_membership'
+-- SELALU GAGAL saat registrasi (check constraint violation 23514).
+-- Produk 'bimbel_prop' (Kelas Bimbel + Propfunds) DIHAPUS dari penawaran.
+--
+-- Produk aktif: ea_trading, bimbel_only, vip_membership, vip_plus_membership
+-- =====================================================================
+
+ALTER TABLE clients DROP CONSTRAINT IF EXISTS clients_product_type_check;
+ALTER TABLE clients ADD CONSTRAINT clients_product_type_check
+  CHECK (product_type = ANY (ARRAY[
+    'ea_trading'::text,
+    'bimbel_only'::text,
+    'vip_membership'::text,
+    'vip_plus_membership'::text
+  ]));
