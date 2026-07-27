@@ -27,7 +27,7 @@ export interface Database {
           occupation: string | null
           position: string | null
           ktp_url: string | null
-          product_type: 'ea_trading' | 'bimbel_prop' | 'bimbel_only' | 'vip_membership' | 'vip_plus_membership' | null
+          product_type: 'ea_trading' | 'bimbel_only' | 'vip_membership' | 'vip_plus_membership' | null
           product_config: Json | null
           risk_profile: 'aggressive' | 'moderate' | 'conservative' | null
           consent_data_accuracy: boolean
@@ -52,7 +52,7 @@ export interface Database {
           occupation?: string | null
           position?: string | null
           ktp_url?: string | null
-          product_type?: 'ea_trading' | 'bimbel_prop' | 'bimbel_only' | 'vip_membership' | 'vip_plus_membership' | null
+          product_type?: 'ea_trading' | 'bimbel_only' | 'vip_membership' | 'vip_plus_membership' | null
           product_config?: Json | null
           risk_profile?: 'aggressive' | 'moderate' | 'conservative' | null
           consent_data_accuracy?: boolean
@@ -77,7 +77,7 @@ export interface Database {
           occupation?: string | null
           position?: string | null
           ktp_url?: string | null
-          product_type?: 'ea_trading' | 'bimbel_prop' | 'bimbel_only' | 'vip_membership' | 'vip_plus_membership' | null
+          product_type?: 'ea_trading' | 'bimbel_only' | 'vip_membership' | 'vip_plus_membership' | null
           product_config?: Json | null
           risk_profile?: 'aggressive' | 'moderate' | 'conservative' | null
           consent_data_accuracy?: boolean
@@ -213,16 +213,22 @@ export interface Database {
           user_id: string
           role: 'admin' | 'client'
           created_at: string
+          must_change_password: boolean
+          last_password_change: string | null
         }
         Insert: {
           user_id: string
           role?: 'admin' | 'client'
           created_at?: string
+          must_change_password?: boolean
+          last_password_change?: string | null
         }
         Update: {
           user_id?: string
           role?: 'admin' | 'client'
           created_at?: string
+          must_change_password?: boolean
+          last_password_change?: string | null
         }
       }
     }

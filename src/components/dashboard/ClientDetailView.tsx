@@ -20,7 +20,7 @@ interface ClientData {
   position: string;
   address: string;
   ktp_url: string;
-  product_type: 'ea_trading' | 'bimbel_prop' | 'bimbel_only' | 'vip_membership' | 'vip_plus_membership';
+  product_type: 'ea_trading' | 'bimbel_only' | 'vip_membership' | 'vip_plus_membership';
   product_config: any;
   risk_profile: 'aggressive' | 'moderate' | 'conservative' | null;
   status: string;
@@ -221,7 +221,6 @@ export function ClientDetailView({ clientId, onClose, onUpdate }: ClientDetailVi
   const getProductLabel = () => {
     switch (client?.product_type) {
       case 'ea_trading': return 'Algo Signal Provider';
-      case 'bimbel_prop': return 'Kelas Bimbel + Prop Funds';
       case 'bimbel_only': return 'Kelas Bimbel';
       case 'vip_membership': return 'VIP Membership';
       case 'vip_plus_membership': return 'VIP+ Membership';
@@ -234,8 +233,8 @@ export function ClientDetailView({ clientId, onClose, onUpdate }: ClientDetailVi
     
     switch (client.product_config.ea_type) {
       case 'gold_rh': return 'Gold RH+';
-      case 'gold_breakout': return 'Gold Breakout System';
-      case 'forex': return 'Forex';
+      case 'gold_bebek_pintar': return 'Gold Bebek Pintar';
+      case 'forex_quant_stack': return 'SMC Intelligence Forex Quant Stack';
       default: return client.product_config.ea_type;
     }
   };
@@ -473,7 +472,7 @@ export function ClientDetailView({ clientId, onClose, onUpdate }: ClientDetailVi
                     </>
                   )}
 
-                  {(client.product_type === 'bimbel_prop' || client.product_type === 'bimbel_only') && (
+                  {client.product_type === 'bimbel_only' && (
                     <div>
                       <p className="text-sm text-gray-600">Tujuan Program</p>
                       <p className="font-medium text-gray-900">{getProgramGoalLabel()}</p>
