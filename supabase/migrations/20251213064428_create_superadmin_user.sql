@@ -6,7 +6,7 @@
   
   ## Details
   - Email: superadmin@vista.local
-  - Password: Vista2024!Super (MUST CHANGE ON FIRST LOGIN)
+  - Password: set manually when creating the user (MUST CHANGE ON FIRST LOGIN)
   - Role: admin
   - must_change_password: true
 
