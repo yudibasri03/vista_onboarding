@@ -169,8 +169,8 @@ export function AdminDashboard() {
     const getEAType = (client: Client) => {
       if (client.product_type === 'ea_trading' && client.product_config?.ea_type) {
         switch (client.product_config.ea_type) {
-          case 'gold_rh': return 'Gold RH+';
-          case 'gold_bebek_pintar': return 'Gold Bebek Pintar';
+          case 'epicbot_v1': return 'EpicBOT v1';
+          case 'epicbot_v2': return 'EpicBOT v2';
           case 'forex_quant_stack': return 'SMC Intelligence Forex Quant Stack';
           default: return client.product_config.ea_type;
         }

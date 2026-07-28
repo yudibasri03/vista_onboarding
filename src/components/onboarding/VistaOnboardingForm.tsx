@@ -596,8 +596,8 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                         className="w-full px-4 py-3 bg-white border-2 border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all shadow-sm"
                       >
                         <option value="">Pilih Signal Provider</option>
-                        <option value="gold_rh">Gold RH+</option>
-                        <option value="gold_bebek_pintar">Gold Bebek Pintar</option>
+                        <option value="epicbot_v1">EpicBOT v1</option>
+                        <option value="epicbot_v2">EpicBOT v2</option>
                         <option value="forex_quant_stack">SMC Intelligence Forex Quant Stack</option>
                       </select>
                     </div>
@@ -719,8 +719,8 @@ export function VistaOnboardingForm({ onSuccess }: VistaOnboardingFormProps) {
                         <div className="bg-white rounded-lg p-3 shadow-sm border border-slate-200">
                           <p className="text-slate-600 text-xs mb-1">Jenis Signal Provider</p>
                           <p className="font-semibold text-slate-900">
-                            {data.eaType === 'gold_rh' && 'Gold RH+'}
-                            {data.eaType === 'gold_bebek_pintar' && 'Gold Bebek Pintar'}
+                            {data.eaType === 'epicbot_v1' && 'EpicBOT v1'}
+                            {data.eaType === 'epicbot_v2' && 'EpicBOT v2'}
                             {data.eaType === 'forex_quant_stack' && 'SMC Intelligence Forex Quant Stack'}
                           </p>
                         </div>
